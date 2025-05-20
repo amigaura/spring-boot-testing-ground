@@ -1,0 +1,14 @@
+com/testing/ground/TestingGroundApplication.class
+com/testing/ground/config/AppConfig.class
+com/testing/ground/model/ProcessingResult.class
+com/testing/ground/service/ItemsService.class
+com/testing/ground/repository/ItemRepository.class
+com/testing/ground/ItemProcessorV2.class
+com/testing/ground/entity/Item.class
+com/testing/ground/ItemProcessor.class
+com/testing/ground/config/SchedulerConfig.class
+com/testing/ground/ProcessedItem.class
+com/testing/ground/config/DatabaseConfiguration.class
+com/testing/ground/Item.class
+com/testing/ground/controller/ItemController.class
+com/testing/ground/monitoring/ProcessingMetrics.class
