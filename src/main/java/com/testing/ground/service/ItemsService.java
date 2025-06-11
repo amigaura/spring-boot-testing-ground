@@ -34,8 +34,17 @@ public class ItemsService {
 
     @Transactional
     public List<ProcessingResult> processItems(List<Item> items) throws InterruptedException {
+        System.out.println("Processing items: " + items.size());
+        if (items.isEmpty()) {
+            System.out.println("No items to process");
+            return new ArrayList<>();
+        }
         List<Callable<ProcessingResult>> tasks = items.stream()
-                .map(item -> (Callable<ProcessingResult>) () -> processWithTimeout(item))
+                .map(item -> (Callable<ProcessingResult>) () -> {
+                    // Persist the item before processing
+                    Item savedItem = itemRepository.save(item);
+                    return processWithTimeout(savedItem);
+                })
                 .collect(Collectors.toList());
 
         List<Future<ProcessingResult>> futures = executor.invokeAll(tasks);
@@ -49,7 +58,6 @@ public class ItemsService {
                 results.add(new ProcessingResult("FAILED", e.getMessage()));
             }
         }
-
         return results;
     }
 

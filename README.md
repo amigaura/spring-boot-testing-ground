@@ -176,7 +176,7 @@ curl --location 'http://localhost:8080/api/items'
    ```
 7. Access the H2 Console:
    Open your web browser and navigate to `http://localhost:8080/h2-console` to access the H2 database console. Use the following credentials:
-   - **JDBC URL**: `jdbc:h2:mem:testdb`
+   - **JDBC URL**: `jdbc:h2:mem:testdb` / jdbc:h2:file:../../h2/data/testdb
    - **User Name**: `sa`
    - **Password**: (leave it blank)
    - **Driver Class**: `org.h2.Driver`

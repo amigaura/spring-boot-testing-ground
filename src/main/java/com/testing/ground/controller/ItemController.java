@@ -26,13 +26,22 @@ public class ItemController {
 
     @PostMapping
     public ResponseEntity<Item> createItem(@RequestBody Item item) {
-        Item saved = itemRepository.save(item);
+        Item saved;
+        try {
+            saved = itemRepository.save(item);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        };
         return ResponseEntity.ok(saved);
     }
 
-    @PostMapping("/process-items")
+    @PostMapping("/process_items")
     public ResponseEntity<List<ProcessingResult>> processItems(@RequestBody List<Item> items) throws Exception {
-        return ResponseEntity.ok(itemsService.processItems(items));
+        try {
+            return ResponseEntity.ok(itemsService.processItems(items));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
     }
 
     @GetMapping
