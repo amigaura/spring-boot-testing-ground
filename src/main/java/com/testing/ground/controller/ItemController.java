@@ -14,25 +14,17 @@ import java.util.List;
 @RequestMapping("/api/items")
 public class ItemController {
 
-    @Autowired
-    private final ItemRepository itemRepository;
 
     @Autowired
     private ItemsService itemsService;
 
-    public ItemController(ItemRepository itemRepository) {
-        this.itemRepository = itemRepository;
-    }
-
     @PostMapping
-    public ResponseEntity<Item> createItem(@RequestBody Item item) {
-        Item saved;
+    public ResponseEntity<ProcessingResult> createItem(@RequestBody Item item) {
         try {
-            saved = itemRepository.save(item);
+            return ResponseEntity.ok(itemsService.createOrUpdateItem(item));
         } catch (Exception e) {
             return ResponseEntity.status(500).build();
-        };
-        return ResponseEntity.ok(saved);
+        }
     }
 
     @PostMapping("/process_items")
@@ -46,7 +38,11 @@ public class ItemController {
 
     @GetMapping
     public ResponseEntity<List<Item>> getAllItems() {
-        return ResponseEntity.ok(itemRepository.findAll());
+        try {
+            return ResponseEntity.ok(itemsService.getAllItems());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
     }
 }
 

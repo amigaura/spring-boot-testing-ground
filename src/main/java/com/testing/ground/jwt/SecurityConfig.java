@@ -1,6 +1,5 @@
 package com.testing.ground.jwt;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,10 +14,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
-//    @Autowired
-//    private JwtFilter jwtFilter;
-
     private final UserDetailsService userDetailsService;
 
     public SecurityConfig(UserDetailsService userDetailsService) {
@@ -43,12 +38,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        return new CustomUserDetailsService();  // your custom service
-//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {

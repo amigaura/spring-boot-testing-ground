@@ -5,7 +5,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.testing.ground.entity.Item;
 import com.testing.ground.model.ProcessingResult;
 import com.testing.ground.repository.ItemRepository;
-import io.micrometer.core.instrument.MeterRegistry;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,6 +76,7 @@ public class ItemsService {
             // Save to DB
             Item savedItem = itemRepository.save(item);
             System.out.println("Saved item: " + savedItem);
+            result.setMessage("Item processed successfully: " + savedItem.getName());
 
             // Metrics
 //            meterRegistry.counter("item.processed", "status", "SUCCESS").increment();
@@ -84,6 +85,39 @@ public class ItemsService {
         } catch (Exception e) {
 //            meterRegistry.counter("item.processed", "status", "FAILED").increment();
             return new ProcessingResult("FAILED", e.getMessage());
+        }
+    }
+
+public ProcessingResult createOrUpdateItem(Item item) {
+    try {
+        Item savedItem;
+        if (item.getId() != null && itemRepository.existsById(item.getId())) {
+            // Update existing item
+            Item existingItem = itemRepository.findById(item.getId()).orElseThrow();
+            existingItem.setName(item.getName());
+            // Set other fields as needed
+            savedItem = itemRepository.save(existingItem);
+            System.out.println("Updated item: " + savedItem);
+            return new ProcessingResult("UPDATED", "Item updated successfully: " + savedItem.getName());
+        } else {
+            // Create new item
+            savedItem = itemRepository.save(item);
+            System.out.println("Created item: " + savedItem);
+            return new ProcessingResult("CREATED", "Item created successfully: " + savedItem.getName());
+        }
+    } catch (OptimisticLockException e) {
+        return new ProcessingResult("FAILED", "Optimistic lock error: " + e.getMessage());
+    } catch (Exception e) {
+        return new ProcessingResult("FAILED", e.getMessage());
+    }
+}
+
+    public List<Item> getAllItems() {
+        try {
+            return itemRepository.findAll();
+        } catch (Exception e) {
+            System.err.println("Error fetching items: " + e.getMessage());
+            return new ArrayList<>();
         }
     }
 }
