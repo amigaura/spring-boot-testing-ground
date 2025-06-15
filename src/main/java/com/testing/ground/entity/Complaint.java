@@ -21,7 +21,7 @@ public class Complaint {
     private Long buildingId;
     private Long flatId;
 
-    private String createdBy; // User who created the complaint
+    private String createdBy; // AppUser who created the complaint
     private String defaulter;
     @Column(length = 2000)
     private String details;
@@ -30,17 +30,17 @@ public class Complaint {
     private String complaintDate; // Date in ISO format
     private String priority; // LOW, MEDIUM, HIGH
 
-    private String assignedTo; // User to whom the complaint is currently assigned
-    private String assignedBy; // User who assigned the complaint
+    private String assignedTo; // AppUser to whom the complaint is currently assigned
+    private String assignedBy; // AppUser who assigned the complaint
     private String assignedDate; // Date in ISO format
 
-    private String attendedBy; // User who attended the complaint
+    private String attendedBy; // AppUser who attended the complaint
     private String attendedDate; // Date in ISO format
     private String resolutionDetails;
     private String resolutionDate; // Date in ISO format
 
     private String lastUpdated; // Date in ISO format
-    private String lastUpdatedBy; // User who last updated the complaint
+    private String lastUpdatedBy; // AppUser who last updated the complaint
 
     private Long reopeningCount; // Number of times the complaint has been reopened
     private String escalationLevel; // e.g., LEVEL_1, LEVEL_2, LEVEL_3
