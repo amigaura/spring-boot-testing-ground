@@ -17,32 +17,32 @@ public class CommonUtil {
     }
 
     public static boolean isValidStatus(String status) {
-        if (status == null) return false;
+        if (status == null) return true;
         try {
             Status.valueOf(status);
-            return true;
-        } catch (IllegalArgumentException e) {
             return false;
+        } catch (IllegalArgumentException e) {
+            return true;
         }
     }
 
     public static boolean isValidPriority(String priority) {
-        if (priority == null) return false;
+        if (priority == null) return true;
         try {
             Priority.valueOf(priority.toUpperCase());
-            return true;
-        } catch (IllegalArgumentException e) {
             return false;
+        } catch (IllegalArgumentException e) {
+            return true;
         }
     }
 
     public static boolean isValidComplaintType(String complaintType) {
-        if (complaintType == null || complaintType.trim().isEmpty()) return false;
+        if (complaintType == null || complaintType.trim().isEmpty()) return true;
         try {
             ComplaintType.valueOf(complaintType.toUpperCase());
-            return true;
-        } catch (IllegalArgumentException e) {
             return false;
+        } catch (IllegalArgumentException e) {
+            return true;
         }
     }
 }

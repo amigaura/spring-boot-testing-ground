@@ -1,6 +1,5 @@
 package com.testing.ground.service;
 
-import com.testing.ground.controller.ComplaintController;
 import com.testing.ground.entity.AppUser;
 import com.testing.ground.repository.UserRepository;
 import org.slf4j.Logger;

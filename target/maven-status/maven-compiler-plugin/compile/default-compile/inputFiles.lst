@@ -12,7 +12,6 @@
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/controller/ItemControllerAsync.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/ApiRequest.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/AppUser.java
-/Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/AppUserRole.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/Complaint.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/Item.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/UserRole.java

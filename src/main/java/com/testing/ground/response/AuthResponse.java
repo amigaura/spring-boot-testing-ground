@@ -1,4 +1,4 @@
-package com.testing.ground.jwt;
+package com.testing.ground.response;
 
 public class AuthResponse {
     private String token;

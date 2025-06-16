@@ -1,5 +1,8 @@
-package com.testing.ground.jwt;
+package com.testing.ground.controller;
 
+import com.testing.ground.request.AuthRequest;
+import com.testing.ground.response.AuthResponse;
+import com.testing.ground.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,10 +39,3 @@ public class AuthController {
         }
     }
 }
-
-
-/**
- * curl -X POST http://localhost:8080/auth/login \
- *   -H "Content-Type: application/json" \
- *   -d '{"username": "john", "password": "secret"}'
- */

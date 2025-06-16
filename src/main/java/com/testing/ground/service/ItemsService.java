@@ -29,9 +29,6 @@ public class ItemsService {
     @Autowired
     private ItemRepository itemRepository;
 
-//    @Autowired
-//    private MeterRegistry meterRegistry;
-
     @Transactional
     public List<ProcessingResult> processItems(List<Item> items) throws InterruptedException {
         System.out.println("Processing items: " + items.size());

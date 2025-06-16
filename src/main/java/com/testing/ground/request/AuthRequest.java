@@ -1,4 +1,4 @@
-package com.testing.ground.jwt;
+package com.testing.ground.request;
 
 public class AuthRequest {
     private String username;

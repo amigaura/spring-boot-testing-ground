@@ -7,12 +7,14 @@ com/testing/ground/job/RecoveryJob.class
 com/testing/ground/jwt/SecurityConfig.class
 com/testing/ground/repository/RequestRepository.class
 com/testing/ground/request/ComplaintRequest.class
+com/testing/ground/util/CommonUtil.class
+com/testing/ground/service/UserDetailsServiceImpl.class
 com/testing/ground/entity/UserRole.class
 com/testing/ground/service/ComplaintServiceImpl.class
-com/testing/ground/entity/AppUserRole.class
 com/testing/ground/job/RecoveryJob$1.class
 com/testing/ground/misc/VirtualAccount.class
 com/testing/ground/controller/ComplaintController.class
+com/testing/ground/util/JsonUtil.class
 com/testing/ground/config/DatabaseConfiguration.class
 com/testing/ground/misc/OptionalTest.class
 com/testing/ground/controller/ItemController.class

@@ -167,6 +167,14 @@ spring-boot-testing-ground
 
 ```bash
 curl --location 'http://localhost:8080/api/items'
+
+curl --location 'http://localhost:8080/auth/login' \
+--header 'Content-Type: application/json' \
+--data '{
+  "username": "admin",
+  "password": "amit"
+}'
+
 ```
 
 6. Run Tests:

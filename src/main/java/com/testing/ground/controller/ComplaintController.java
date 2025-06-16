@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,13 +42,13 @@ public class ComplaintController {
             if (complaint.getCreatedBy() == null || complaint.getCreatedBy().isEmpty()) {
                 return ResponseEntity.badRequest().body("Created by cannot be null or empty.");
             }
-            if (complaint.getComplaintType() == null || !CommonUtil.isValidComplaintType(complaint.getComplaintType())) {
+            if (complaint.getComplaintType() == null || CommonUtil.isValidComplaintType(complaint.getComplaintType())) {
                 return ResponseEntity.badRequest().body("Invalid complaint type provided.");
             }
-            if (complaint.getPriority() == null || !CommonUtil.isValidPriority(complaint.getPriority())) {
+            if (complaint.getPriority() == null || CommonUtil.isValidPriority(complaint.getPriority())) {
                 return ResponseEntity.badRequest().body("Invalid priority provided.");
             }
-            if (complaint.getStatus() == null || !CommonUtil.isValidStatus(complaint.getStatus())) {
+            if (complaint.getStatus() == null || CommonUtil.isValidStatus(complaint.getStatus())) {
                 return ResponseEntity.badRequest().body("Invalid status provided.");
             }
             if (complaint.getComplaintDate() == null || !CommonUtil.isValidISODate(complaint.getComplaintDate())) {
@@ -89,7 +88,7 @@ public class ComplaintController {
             if (newStatus == null || newStatus.isEmpty()) {
                 return ResponseEntity.badRequest().body("New status cannot be null or empty.");
             }
-            if (!CommonUtil.isValidStatus(newStatus)) {
+            if (CommonUtil.isValidStatus(newStatus)) {
                 return ResponseEntity.badRequest().body("Invalid status provided.");
             }
             LOGGER.info("Updating status for complaint ID: {} to {}", complaintId, newStatus);
@@ -135,13 +134,13 @@ public class ComplaintController {
             if (searchComplaint.getCreatedBy() == null || searchComplaint.getCreatedBy().isEmpty()) {
                 return ResponseEntity.badRequest().body(null);
             }
-            if (searchComplaint.getComplaintType() != null && !CommonUtil.isValidComplaintType(searchComplaint.getComplaintType())) {
+            if (searchComplaint.getComplaintType() != null && CommonUtil.isValidComplaintType(searchComplaint.getComplaintType())) {
                 return ResponseEntity.badRequest().body(null);
             }
-            if (searchComplaint.getPriority() != null && !CommonUtil.isValidPriority(searchComplaint.getPriority())) {
+            if (searchComplaint.getPriority() != null && CommonUtil.isValidPriority(searchComplaint.getPriority())) {
                 return ResponseEntity.badRequest().body(null);
             }
-            if (searchComplaint.getStatus() != null && !CommonUtil.isValidStatus(searchComplaint.getStatus())) {
+            if (searchComplaint.getStatus() != null && CommonUtil.isValidStatus(searchComplaint.getStatus())) {
                 return ResponseEntity.badRequest().body(null);
             }
             LOGGER.info("Searching complaints with criteria: {}", searchComplaint);
@@ -301,7 +300,7 @@ public class ComplaintController {
         if (status == null || status.isEmpty()) {
             return ResponseEntity.badRequest().body(null);
         }
-        if (!CommonUtil.isValidStatus(status)) {
+        if (CommonUtil.isValidStatus(status)) {
             return ResponseEntity.badRequest().body(null);
         }
         LOGGER.info("Fetching complaints with status: {}", status);
@@ -320,7 +319,7 @@ public class ComplaintController {
         if (priority == null || priority.isEmpty()) {
             return ResponseEntity.badRequest().body(null);
         }
-        if (!CommonUtil.isValidPriority(priority)) {
+        if (CommonUtil.isValidPriority(priority)) {
             return ResponseEntity.badRequest().body(null);
         }
         LOGGER.info("Fetching complaints with priority: {}", priority);
@@ -339,7 +338,7 @@ public class ComplaintController {
             if (complaintType == null || complaintType.isEmpty()) {
                 return ResponseEntity.badRequest().body(null);
             }
-            if (!CommonUtil.isValidComplaintType(complaintType)) {
+            if (CommonUtil.isValidComplaintType(complaintType)) {
                 return ResponseEntity.badRequest().body(null);
             }
             LOGGER.info("Fetching complaints with type: {}", complaintType);

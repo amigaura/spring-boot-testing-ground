@@ -13,7 +13,7 @@ public class StringBuilderTest {
         String decoded = StringEscapeUtils.unescapeHtml4(input);
         System.out.println("Decoded: "+decoded);
 
-        if (invalidVAs.length() > 0)
+        if (!invalidVAs.isEmpty())
             invalidVAs.replace(invalidVAs.length() - 1, invalidVAs.length(), "");
 
         // Convert to String

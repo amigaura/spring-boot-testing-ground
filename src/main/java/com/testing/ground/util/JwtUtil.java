@@ -1,4 +1,4 @@
-package com.testing.ground.jwt;
+package com.testing.ground.util;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -6,7 +6,6 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.util.Base64;
 import java.util.Date;
 
 @Component
@@ -18,12 +17,6 @@ public class JwtUtil {
         // Generate a secure random key (or inject this key)
         this.SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
-
-//    public JwtUtil() {
-//        String base64EncodedKey = "your_very_long_base64_encoded_secret_key_here";
-//        byte[] keyBytes = Base64.getDecoder().decode(base64EncodedKey);
-//        SecretKey SECRET_KEY = Keys.hmacShaKeyFor(keyBytes);
-//    }
 
     public String generateToken(String username) {
         return Jwts.builder()

@@ -1,5 +1,6 @@
-package com.testing.ground.jwt;
+package com.testing.ground.filter;
 
+import com.testing.ground.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
