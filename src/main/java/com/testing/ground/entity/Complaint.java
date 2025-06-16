@@ -1,5 +1,8 @@
 package com.testing.ground.entity;
 
+import com.testing.ground.constant.ComplaintType;
+import com.testing.ground.constant.Priority;
+import com.testing.ground.constant.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

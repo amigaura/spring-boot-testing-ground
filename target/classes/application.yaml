@@ -57,6 +57,12 @@ spring:
     properties:
       hibernate.format_sql: true
 
+logging:
+  level:
+    com:
+      testing:
+        ground: DEBUG
+
 
 
 

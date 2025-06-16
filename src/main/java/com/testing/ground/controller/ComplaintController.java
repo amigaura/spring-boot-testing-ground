@@ -2,23 +2,33 @@ package com.testing.ground.controller;
 
 import com.testing.ground.entity.Complaint;
 import com.testing.ground.service.ComplaintService;
+import com.testing.ground.util.CommonUtil;
+import io.jsonwebtoken.security.SignatureException;
+import jakarta.annotation.security.PermitAll;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- *  ComplaintController is responsible for handling all complaint-related operations.
- *  *  It provides endpoints to log complaints, retrieve and update complaint statuses,
- *  *  delete complaints, list all complaints, search for specific complaints,
- *  *  escalate, archive, reopen complaints, assign complaints to users,
- *  *  add comments to complaints, and retrieve complaint history.
+ * ComplaintController is responsible for handling all complaint-related operations.
+ * *  It provides endpoints to log complaints, retrieve and update complaint statuses,
+ * *  delete complaints, list all complaints, search for specific complaints,
+ * *  escalate, archive, reopen complaints, assign complaints to users,
+ * *  add comments to complaints, and retrieve complaint history.
  */
 @RestController
 @RequestMapping("/api/complaints")
 public class ComplaintController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComplaintController.class);
 
     @Autowired
     private ComplaintService complaintService;
@@ -26,109 +36,354 @@ public class ComplaintController {
     @PreAuthorize("hasRole('USER')")
     @PostMapping
     public ResponseEntity<String> logComplaint(@RequestBody Complaint complaint) {
-        return ResponseEntity.ok(complaintService.logComplaint(complaint));
+        try {
+            if (complaint == null || complaint.getDetails() == null || complaint.getDetails().isEmpty()) {
+                return ResponseEntity.badRequest().body("Complaint details cannot be null or empty.");
+            }
+            if (complaint.getCreatedBy() == null || complaint.getCreatedBy().isEmpty()) {
+                return ResponseEntity.badRequest().body("Created by cannot be null or empty.");
+            }
+            if (complaint.getComplaintType() == null || !CommonUtil.isValidComplaintType(complaint.getComplaintType())) {
+                return ResponseEntity.badRequest().body("Invalid complaint type provided.");
+            }
+            if (complaint.getPriority() == null || !CommonUtil.isValidPriority(complaint.getPriority())) {
+                return ResponseEntity.badRequest().body("Invalid priority provided.");
+            }
+            if (complaint.getStatus() == null || !CommonUtil.isValidStatus(complaint.getStatus())) {
+                return ResponseEntity.badRequest().body("Invalid status provided.");
+            }
+            if (complaint.getComplaintDate() == null || !CommonUtil.isValidISODate(complaint.getComplaintDate())) {
+                return ResponseEntity.badRequest().body("Invalid complaint date provided. Must be in ISO format.");
+            }
+            LOGGER.info("Logging complaint: {}", complaint);
+            return ResponseEntity.ok(complaintService.logComplaint(complaint));
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body("Unauthorized: You do not have permission to log a complaint.");
+        } catch (Exception e) {
+            LOGGER.error("Error logging complaint: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while logging the complaint.");
+        }
     }
 
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/{complaintId}/status")
     public ResponseEntity<String> getComplaintStatus(@PathVariable Long complaintId) {
-        return ResponseEntity.ok(complaintService.getComplaintStatus(complaintId));
+        try {
+            if (complaintId == null || complaintId <= 0) {
+                return ResponseEntity.badRequest().body("Invalid complaint ID.");
+            }
+            LOGGER.info("Fetching status for complaint ID: {}", complaintId);
+            return ResponseEntity.ok(complaintService.getComplaintStatus(complaintId));
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body("Unauthorized: You do not have permission to log a complaint.");
+        }
     }
 
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @PutMapping("/{complaintId}/status")
     public ResponseEntity<String> updateComplaintStatus(@PathVariable String complaintId, @RequestBody String newStatus) {
-        return ResponseEntity.ok(complaintService.updateComplaintStatus(complaintId, newStatus));
+        try {
+            if (complaintId == null || complaintId.isEmpty()) {
+                return ResponseEntity.badRequest().body("Complaint ID cannot be null or empty.");
+            }
+            if (newStatus == null || newStatus.isEmpty()) {
+                return ResponseEntity.badRequest().body("New status cannot be null or empty.");
+            }
+            if (!CommonUtil.isValidStatus(newStatus)) {
+                return ResponseEntity.badRequest().body("Invalid status provided.");
+            }
+            LOGGER.info("Updating status for complaint ID: {} to {}", complaintId, newStatus);
+            return ResponseEntity.ok(complaintService.updateComplaintStatus(complaintId, newStatus));
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body("Unauthorized: You do not have permission to log a complaint.");
+        }
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{complaintId}")
     public ResponseEntity<String> deleteComplaint(@PathVariable String complaintId) {
-        return ResponseEntity.ok(complaintService.deleteComplaint(complaintId));
+        try {
+            if (complaintId == null || complaintId.isEmpty()) {
+                return ResponseEntity.badRequest().body("Complaint ID cannot be null or empty.");
+            }
+            LOGGER.info("Deleting complaint with ID: {}", complaintId);
+            return ResponseEntity.ok(complaintService.deleteComplaint(complaintId));
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body("Unauthorized: You do not have permission to log a complaint.");
+        }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
+    @PermitAll
     public ResponseEntity<List<Complaint>> listAllComplaints() {
-        return ResponseEntity.ok(complaintService.listAllComplaints());
+        try {
+            LOGGER.info("Listing all complaints");
+            return ResponseEntity.ok(complaintService.listAllComplaints());
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body(null);
+        }
     }
 
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @PostMapping("/search")
     public ResponseEntity<List<Complaint>> searchComplaints(@RequestBody Complaint searchComplaint) {
-        return ResponseEntity.ok(complaintService.searchComplaints(searchComplaint));
+        try {
+            if (searchComplaint == null) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            if (searchComplaint.getCreatedBy() == null || searchComplaint.getCreatedBy().isEmpty()) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            if (searchComplaint.getComplaintType() != null && !CommonUtil.isValidComplaintType(searchComplaint.getComplaintType())) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            if (searchComplaint.getPriority() != null && !CommonUtil.isValidPriority(searchComplaint.getPriority())) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            if (searchComplaint.getStatus() != null && !CommonUtil.isValidStatus(searchComplaint.getStatus())) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            LOGGER.info("Searching complaints with criteria: {}", searchComplaint);
+            return ResponseEntity.ok(complaintService.searchComplaints(searchComplaint));
+
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body(null);
+        }
+
     }
 
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @PostMapping("/{complaintId}/escalate")
     public ResponseEntity<String> escalateComplaint(@PathVariable String complaintId) {
-        return ResponseEntity.ok(complaintService.escalateComplaint(complaintId));
+        try {
+            if (complaintId == null || complaintId.isEmpty()) {
+                return ResponseEntity.badRequest().body("Complaint ID cannot be null or empty.");
+            }
+            LOGGER.info("Escalating complaint with ID: {}", complaintId);
+            return ResponseEntity.ok(complaintService.escalateComplaint(complaintId));
+
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body("Unauthorized: You do not have permission to log a complaint.");
+        }
+
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{complaintId}/archive")
     public ResponseEntity<String> archiveComplaint(@PathVariable String complaintId) {
-        return ResponseEntity.ok(complaintService.archiveComplaint(complaintId));
+        try {
+            if (complaintId == null || complaintId.isEmpty()) {
+                return ResponseEntity.badRequest().body("Complaint ID cannot be null or empty.");
+            }
+            LOGGER.info("Archiving complaint with ID: {}", complaintId);
+            return ResponseEntity.ok(complaintService.archiveComplaint(complaintId));
+
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body("Unauthorized: You do not have permission to log a complaint.");
+        }
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @PostMapping("/{complaintId}/reopen")
-    public ResponseEntity<String> reopenComplaint(@PathVariable String complaintId) {
-        return ResponseEntity.ok(complaintService.reopenComplaint(complaintId));
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/{complaintId}/assign")
-    public ResponseEntity<String> assignComplaint(@PathVariable String complaintId, @RequestParam String assignedTo) {
-        return ResponseEntity.ok(complaintService.assignComplaint(complaintId, assignedTo));
-    }
-
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public ResponseEntity<String> reopenComplaint(@PathVariable String complaintId) {
+        try {
+            if (complaintId == null || complaintId.isEmpty()) {
+                return ResponseEntity.badRequest().body("Complaint ID cannot be null or empty.");
+            }
+            LOGGER.info("Reopening complaint with ID: {}", complaintId);
+            return ResponseEntity.ok(complaintService.reopenComplaint(complaintId));
+
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body("Unauthorized: You do not have permission to log a complaint.");
+        }
+    }
+
+    @PostMapping("/{complaintId}/assign")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> assignComplaint(@PathVariable String complaintId, @RequestParam String assignedTo) {
+        try {
+            if (complaintId == null || complaintId.isEmpty()) {
+                return ResponseEntity.badRequest().body("Complaint ID cannot be null or empty.");
+            }
+            if (assignedTo == null || assignedTo.isEmpty()) {
+                return ResponseEntity.badRequest().body("Assigned user ID cannot be null or empty.");
+            }
+            LOGGER.info("Assigning complaint with ID: {} to user: {}", complaintId, assignedTo);
+            return ResponseEntity.ok(complaintService.assignComplaint(complaintId, assignedTo));
+
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body("Unauthorized: You do not have permission to log a complaint.");
+        }
+    }
+
     @GetMapping("/{complaintId}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<Complaint> getComplaintDetails(@PathVariable String complaintId) {
-        return ResponseEntity.ok(complaintService.getComplaintDetails(complaintId));
+        try {
+            if (complaintId == null || complaintId.isEmpty()) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            LOGGER.info("Fetching details for complaint ID: {}", complaintId);
+            return ResponseEntity.ok(complaintService.getComplaintDetails(complaintId));
+
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body(null);
+        }
     }
 
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @PostMapping("/{complaintId}/comment")
     public ResponseEntity<String> addCommentToComplaint(@PathVariable String complaintId, @RequestBody String comment) {
-        return ResponseEntity.ok(complaintService.addCommentToComplaint(complaintId, comment));
+        try {
+            if (complaintId == null || complaintId.isEmpty()) {
+                return ResponseEntity.badRequest().body("Complaint ID cannot be null or empty.");
+            }
+            if (comment == null || comment.isEmpty()) {
+                return ResponseEntity.badRequest().body("Comment cannot be null or empty.");
+            }
+            LOGGER.info("Adding comment to complaint ID: {} - Comment: {}", complaintId, comment);
+            return ResponseEntity.ok(complaintService.addCommentToComplaint(complaintId, comment));
+
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body("Unauthorized: You do not have permission to log a complaint.");
+        }
     }
 
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/{complaintId}/history")
     public ResponseEntity<String> getComplaintHistory(@PathVariable String complaintId) {
-        return ResponseEntity.ok(complaintService.getComplaintHistory(complaintId));
+        try {
+            if (complaintId == null || complaintId.isEmpty()) {
+                return ResponseEntity.badRequest().body("Complaint ID cannot be null or empty.");
+            }
+            LOGGER.info("Fetching history for complaint ID: {}", complaintId);
+            return ResponseEntity.ok(complaintService.getComplaintHistory(complaintId));
+
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body("Unauthorized: You do not have permission to log a complaint.");
+        }
     }
 
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/assigned")
     public ResponseEntity<List<Complaint>> getComplaintsAssignedToUser(@RequestParam String userId) {
-        return ResponseEntity.ok(complaintService.getComplaintsAssignedToUser(userId));
+        try {
+            if (userId == null || userId.isEmpty()) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            LOGGER.info("Fetching complaints assigned to user ID: {}", userId);
+            return ResponseEntity.ok(complaintService.getComplaintsAssignedToUser(userId));
+
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body(null);
+        }
     }
 
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/created")
     public ResponseEntity<List<Complaint>> getComplaintByCreatedBy(@RequestParam String userId) {
-        return ResponseEntity.ok(complaintService.getComplaintByCreatedBy(userId));
+        try {
+            if (userId == null || userId.isEmpty()) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            LOGGER.info("Fetching complaints created by user ID: {}", userId);
+            return ResponseEntity.ok(complaintService.getComplaintByCreatedBy(userId));
+
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body(null);
+        }
     }
 
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/status")
     public ResponseEntity<List<Complaint>> getComplaintsByStatus(@RequestParam String status) {
-        return ResponseEntity.ok(complaintService.getComplaintsByStatus(status));
+        if (status == null || status.isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        if (!CommonUtil.isValidStatus(status)) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        LOGGER.info("Fetching complaints with status: {}", status);
+        try {
+
+            return ResponseEntity.ok(complaintService.getComplaintsByStatus(status));
+
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body(null);
+        }
     }
 
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/priority")
     public ResponseEntity<List<Complaint>> getComplaintsByPriority(@RequestParam String priority) {
-        return ResponseEntity.ok(complaintService.getComplaintsByPriority(priority));
+        if (priority == null || priority.isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        if (!CommonUtil.isValidPriority(priority)) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        LOGGER.info("Fetching complaints with priority: {}", priority);
+        try {
+            return ResponseEntity.ok(complaintService.getComplaintsByPriority(priority));
+        } catch (org.springframework.security.access.AccessDeniedException ex) {
+            return ResponseEntity.status(401).body(null);
+        }
     }
 
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/type")
     public ResponseEntity<List<Complaint>> getComplaintsByType(@RequestParam String complaintType) {
-        return ResponseEntity.ok(complaintService.getComplaintsByType(complaintType));
+        try {
+
+            if (complaintType == null || complaintType.isEmpty()) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            if (!CommonUtil.isValidComplaintType(complaintType)) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            LOGGER.info("Fetching complaints with type: {}", complaintType);
+            return ResponseEntity.ok(complaintService.getComplaintsByType(complaintType));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        } catch (AccessDeniedException exception) {
+            return ResponseEntity.status(401).body(null);
+        } catch (Exception e) {
+            LOGGER.error("Error fetching complaints by type: {}", e.getMessage());
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+    @ExceptionHandler(SignatureException.class)
+    public ResponseEntity<String> handleJwtSignatureException(SignatureException ex) {
+        LOGGER.error("Invalid JWT signature: {}", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body("Invalid or tampered JWT token. Please login again.");
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException ex) {
+        LOGGER.error("Access denied: {}", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("You do not have permission to access this resource.");
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        LOGGER.error("Invalid argument: {}", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body("Invalid input provided. Please check your request.");
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGenericException(Exception ex) {
+        LOGGER.error("An unexpected error occurred: {}", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("An unexpected error occurred. Please try again later.");
     }
 
 }

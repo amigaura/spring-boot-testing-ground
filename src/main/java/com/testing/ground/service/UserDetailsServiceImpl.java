@@ -1,7 +1,10 @@
 package com.testing.ground.service;
 
+import com.testing.ground.controller.ComplaintController;
 import com.testing.ground.entity.AppUser;
 import com.testing.ground.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,6 +19,8 @@ import java.util.stream.Collectors;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+
     @Autowired
     private UserRepository userRepository;
 
@@ -26,8 +31,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         Set<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
+//                .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toSet());
-
+        LOGGER.info("User found: {}", user.getUsername());
+        LOGGER.debug("User roles: {}", authorities);
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(), user.getPassword(), authorities);
     }
