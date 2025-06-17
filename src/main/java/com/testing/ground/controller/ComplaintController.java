@@ -32,7 +32,7 @@ public class ComplaintController {
     @Autowired
     private ComplaintService complaintService;
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('Resident')")
     @PostMapping
     public ResponseEntity<String> logComplaint(@RequestBody Complaint complaint) {
         try {
@@ -64,7 +64,7 @@ public class ComplaintController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('Resident','ADMIN')")
     @GetMapping("/{complaintId}/status")
     public ResponseEntity<String> getComplaintStatus(@PathVariable Long complaintId) {
         try {
@@ -78,7 +78,7 @@ public class ComplaintController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('Resident','ADMIN')")
     @PutMapping("/{complaintId}/status")
     public ResponseEntity<String> updateComplaintStatus(@PathVariable String complaintId, @RequestBody String newStatus) {
         try {
@@ -124,7 +124,7 @@ public class ComplaintController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('Resident','ADMIN')")
     @PostMapping("/search")
     public ResponseEntity<List<Complaint>> searchComplaints(@RequestBody Complaint searchComplaint) {
         try {
@@ -152,7 +152,7 @@ public class ComplaintController {
 
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('Resident','ADMIN')")
     @PostMapping("/{complaintId}/escalate")
     public ResponseEntity<String> escalateComplaint(@PathVariable String complaintId) {
         try {
@@ -184,7 +184,7 @@ public class ComplaintController {
     }
 
     @PostMapping("/{complaintId}/reopen")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('Resident','ADMIN')")
     public ResponseEntity<String> reopenComplaint(@PathVariable String complaintId) {
         try {
             if (complaintId == null || complaintId.isEmpty()) {
@@ -217,7 +217,7 @@ public class ComplaintController {
     }
 
     @GetMapping("/{complaintId}")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('Resident','ADMIN')")
     public ResponseEntity<Complaint> getComplaintDetails(@PathVariable String complaintId) {
         try {
             if (complaintId == null || complaintId.isEmpty()) {
@@ -231,7 +231,7 @@ public class ComplaintController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('Resident','ADMIN')")
     @PostMapping("/{complaintId}/comment")
     public ResponseEntity<String> addCommentToComplaint(@PathVariable String complaintId, @RequestBody String comment) {
         try {
@@ -249,7 +249,7 @@ public class ComplaintController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('Resident','ADMIN')")
     @GetMapping("/{complaintId}/history")
     public ResponseEntity<String> getComplaintHistory(@PathVariable String complaintId) {
         try {
@@ -264,7 +264,7 @@ public class ComplaintController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('Resident','ADMIN')")
     @GetMapping("/assigned")
     public ResponseEntity<List<Complaint>> getComplaintsAssignedToUser(@RequestParam String userId) {
         try {
@@ -279,7 +279,7 @@ public class ComplaintController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('Resident','ADMIN')")
     @GetMapping("/created")
     public ResponseEntity<List<Complaint>> getComplaintByCreatedBy(@RequestParam String userId) {
         try {
@@ -294,7 +294,7 @@ public class ComplaintController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('Resident','ADMIN')")
     @GetMapping("/status")
     public ResponseEntity<List<Complaint>> getComplaintsByStatus(@RequestParam String status) {
         if (status == null || status.isEmpty()) {
@@ -313,7 +313,7 @@ public class ComplaintController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('Resident','ADMIN')")
     @GetMapping("/priority")
     public ResponseEntity<List<Complaint>> getComplaintsByPriority(@RequestParam String priority) {
         if (priority == null || priority.isEmpty()) {
@@ -330,7 +330,7 @@ public class ComplaintController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('Resident','ADMIN')")
     @GetMapping("/type")
     public ResponseEntity<List<Complaint>> getComplaintsByType(@RequestParam String complaintType) {
         try {

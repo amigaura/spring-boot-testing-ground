@@ -1,6 +1,6 @@
 package com.testing.ground.service;
 
-import com.testing.ground.entity.AppUser;
+import com.testing.ground.entity.user.AppUser;
 import com.testing.ground.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,10 +32,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
 //                .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toSet());
-        LOGGER.info("User found: {}", user.getUsername());
+        LOGGER.info("User found: {}", user.getUserDetail().getUsername());
         LOGGER.debug("User roles: {}", authorities);
         return new org.springframework.security.core.userdetails.User(
-                user.getUsername(), user.getPassword(), authorities);
+                user.getUserDetail().getUsername(), user.getPassword(), authorities);
     }
 }
 
