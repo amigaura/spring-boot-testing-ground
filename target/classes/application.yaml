@@ -63,7 +63,8 @@ logging:
       testing:
         ground: DEBUG
 
-
+jwt:
+  secret: iamsupersecretkey123456
 
 
 

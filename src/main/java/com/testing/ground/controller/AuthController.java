@@ -1,41 +1,52 @@
 package com.testing.ground.controller;
 
 import com.testing.ground.request.AuthRequest;
-import com.testing.ground.response.AuthResponse;
-import com.testing.ground.util.JwtUtil;
+import com.testing.ground.request.LogoutRequest;
+import com.testing.ground.service.AuthService;
+import com.testing.ground.service.TokenService;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    Logger LOGGER = org.slf4j.LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
-    private JwtUtil jwtUtil;
+    AuthService authService;
+
+    @Autowired
+    TokenService tokenService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
-            );
-
-            String token = jwtUtil.generateToken(authRequest.getUsername());
-            return ResponseEntity.ok(new AuthResponse(token));
-        } catch (BadCredentialsException ex) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
-        }
+        return ResponseEntity.ok(authService.login(authRequest.getUsername(), authRequest.getPassword()));
     }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@RequestBody Map<String, String> body) {
+        return ResponseEntity.ok(tokenService.refreshToken(body.get("refreshToken")));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestBody LogoutRequest request) {
+        tokenService.revokeRefreshToken(request.getRefreshToken());
+        return ResponseEntity.ok("Logged out successfully");
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<String> handleGenericException(Exception ex) {
+        LOGGER.error("An unexpected error occurred: {}", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(ex.getMessage());
+    }
+
 }

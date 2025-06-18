@@ -1,5 +1,6 @@
 package com.testing.ground.util;
 
+import com.testing.ground.constant.AppConstant;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -10,7 +11,6 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-//    private String SECRET_KEY = "mysecretkey";
 
     SecretKey SECRET_KEY = null;
     public JwtUtil() {
@@ -21,8 +21,9 @@ public class JwtUtil {
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
+//                .claim("role", user.getRoles())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour
+                .setExpiration(new Date(System.currentTimeMillis() + AppConstant.JWT_EXPIRATION_MS)) // 1 hour
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }

@@ -1,6 +1,12 @@
 package com.testing.ground.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class ProcessingResult {
+    // Getters, setters
     private String status;
     private String message;
 
@@ -9,21 +15,5 @@ public class ProcessingResult {
         this.message = message;
     }
 
-    // Getters, setters
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }
 

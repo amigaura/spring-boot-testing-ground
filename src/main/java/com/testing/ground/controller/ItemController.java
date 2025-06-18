@@ -2,7 +2,6 @@ package com.testing.ground.controller;
 
 import com.testing.ground.entity.Item;
 import com.testing.ground.model.ProcessingResult;
-import com.testing.ground.repository.ItemRepository;
 import com.testing.ground.service.ItemsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

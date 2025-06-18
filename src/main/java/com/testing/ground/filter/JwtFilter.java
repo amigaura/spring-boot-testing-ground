@@ -1,10 +1,12 @@
 package com.testing.ground.filter;
 
+import com.testing.ground.repository.UserRepository;
 import com.testing.ground.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,11 +21,16 @@ import java.io.IOException;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
+    Logger LOGGER = org.slf4j.LoggerFactory.getLogger(JwtFilter.class);
+
+    @Autowired
+    private final UserDetailsService userDetailsService;
+
     @Autowired
     private JwtUtil jwtUtil;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserRepository userRepo;
 
     public JwtFilter(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
