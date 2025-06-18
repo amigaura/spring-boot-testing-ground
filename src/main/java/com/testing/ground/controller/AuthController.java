@@ -49,4 +49,12 @@ public class AuthController {
                 .body(ex.getMessage());
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(Exception ex) {
+        LOGGER.error("An unexpected runtime error occurred: {}", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(ex.getMessage());
+    }
+
 }
