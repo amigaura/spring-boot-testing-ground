@@ -13,11 +13,11 @@ public class Permission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long permissionId;
 
+    @Column(nullable = false)
+    private Long societyId;
+
     private String permissionName;
     private String permissionDescription;
-
-    private Long permissionCreatedByUserId;
-    private LocalDateTime permissionCreatedDate;
 
     private LocalDateTime lastUpdated;
     private String lastUpdatedBy;

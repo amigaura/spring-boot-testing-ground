@@ -1,8 +1,8 @@
 package com.testing.ground.util;
 
-import com.testing.ground.constant.ComplaintType;
-import com.testing.ground.constant.Priority;
-import com.testing.ground.constant.Status;
+import com.testing.ground.constant.society.ComplaintType;
+import com.testing.ground.constant.society.Priority;
+import com.testing.ground.constant.society.Status;
 
 public class CommonUtil {
     /**

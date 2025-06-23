@@ -14,6 +14,11 @@ public class UserDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @MapsId
+    @OneToOne
+    @JoinColumn(name = "app_user_id")
+    private AppUser appUser;
+
     private String name;
 
     @Column(unique = true)
@@ -22,17 +27,24 @@ public class UserDetail {
     @Column(unique = true)
     private String email;
 
+    @Column(unique = true)
+    private String phoneNumber;
+
     private Boolean emailVerified;
     private Boolean phoneVerified;
+
     private String occupation;
     private String alternateEmail;
     private String alternatePhone;
+
     private Boolean alternatePhoneVerified;
     private Boolean alternateEmailVerified;
+
     private String alternatePhone2;
     private String alternateEmail2;
     private String alternatePhone3;
     private String alternateEmail3;
+
     private String emergencyContactName;
     private String emergencyContactPhone;
     private String emergencyContactRelationship;
@@ -41,22 +53,27 @@ public class UserDetail {
     private Boolean emergencyContactPhoneVerified;
     private Boolean emergencyContactEmailVerified;
     private Boolean emergencyContactAddressVerified;
-    private String phoneNumber;
+
     private LocalDate dateOfBirth;
     private String profilePicture;
     private String profilePictureUrl;
+
     private LocalDate residingFromDate;
     private String gender;
     private String maritalStatus;
+
     private String bloodGroup;
     private Long defaultPropertyId;
+
     private Boolean pets;
     private String petsDetails;
+
     private String aadharNumber;
     private String panNumber;
     private String passportNumber;
     private String drivingLicenseNumber;
     private String voterIdNumber;
+
     private Boolean clubMembership;
     private String clubMembershipDetails;
 

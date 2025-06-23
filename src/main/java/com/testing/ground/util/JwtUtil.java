@@ -1,6 +1,6 @@
 package com.testing.ground.util;
 
-import com.testing.ground.constant.AppConstant;
+import com.testing.ground.constant.misc.AppConstant;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;

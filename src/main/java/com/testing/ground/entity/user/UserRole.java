@@ -15,6 +15,9 @@ public class UserRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roleId;
 
+    @Column(nullable = false)
+    private Long societyId;
+
     private String name;
     private String description;
 
@@ -23,9 +26,7 @@ public class UserRole {
     @Column(name = "permission_id")
     private Set<Long> permissionIds;
 
-    private Long createdByUserId;
     private LocalDateTime createdDate;
-
     private String createdBy;
     private LocalDateTime lastUpdated;
     private String lastUpdatedBy;

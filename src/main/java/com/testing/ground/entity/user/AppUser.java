@@ -1,5 +1,6 @@
 package com.testing.ground.entity.user;
 
+import com.testing.ground.entity.society.AppUserUnitMapping;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -13,9 +14,18 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private Long societyId;
+
+    @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL)
+    private UserCredential credential;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_detail_id", referencedColumnName = "id")
     private UserDetail userDetail;
+
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
+    private Set<AppUserUnitMapping> units;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -30,6 +40,9 @@ public class AppUser {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<UserRole> roles;
+
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
+    private Set<AppUserSocietyMapping> societies;
 
 }
 

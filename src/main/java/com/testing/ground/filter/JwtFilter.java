@@ -1,6 +1,6 @@
 package com.testing.ground.filter;
 
-import com.testing.ground.repository.UserRepository;
+import com.testing.ground.repository.user.UserRepository;
 import com.testing.ground.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
