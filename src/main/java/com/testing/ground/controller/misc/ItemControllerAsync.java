@@ -1,4 +1,4 @@
-package com.testing.ground.controller.finance;
+package com.testing.ground.controller.misc;
 
 import com.testing.ground.entity.misc.Item;
 import com.testing.ground.service.misc.ItemsServiceAsync;
