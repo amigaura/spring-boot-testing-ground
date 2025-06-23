@@ -1,11 +1,14 @@
-package com.testing.ground.constant.finance;
+package com.testing.ground.entity.vendor;
 
+import com.testing.ground.constant.finance.InvoiceStatus;
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "vendor_invoices")
+@Data
 public class VendorInvoice {
 
     @Id

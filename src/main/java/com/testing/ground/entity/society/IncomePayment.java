@@ -1,11 +1,15 @@
-package com.testing.ground.constant.finance;
+package com.testing.ground.entity.society;
 
+import com.testing.ground.constant.finance.TransactionMethod;
+import com.testing.ground.constant.finance.TransactionStatus;
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "income_payments")
+@Data
 public class IncomePayment {
 
     @Id
@@ -37,7 +41,5 @@ public class IncomePayment {
 
     private String createdBy;
     private LocalDateTime createdDate;
-
-    // Constructors, getters, setters omitted for brevity
 }
 
