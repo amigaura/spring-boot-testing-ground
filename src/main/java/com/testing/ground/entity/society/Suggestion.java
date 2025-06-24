@@ -19,7 +19,7 @@ public class Suggestion {
     @Column(nullable = false)
     private Long societyId;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String detail;
 
     private LocalDateTime lastUpdated;

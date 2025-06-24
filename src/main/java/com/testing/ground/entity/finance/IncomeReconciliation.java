@@ -27,7 +27,7 @@ public class IncomeReconciliation {
     @Column(nullable = false)
     private ReconciliationStatus reconciliationStatus; // RECONCILED, PENDING
 
-    @Lob
+    @Column(length = 1000)
     private String reconciliationDetails;
 
     private LocalDateTime lastUpdated;

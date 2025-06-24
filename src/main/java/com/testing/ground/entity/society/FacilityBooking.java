@@ -47,7 +47,7 @@ public class FacilityBooking {
     @Column(nullable = false)
     private BookingStatus bookingStatus; // CONFIRMED, PENDING, CANCELLED
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String details; // booking details
 
     private LocalDateTime lastUpdated;

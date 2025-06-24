@@ -30,7 +30,7 @@ public class Document {
     @Column(nullable = false)
     private String title;
 
-    @Lob
+    @Column(length = 1000)
     private String description;
 
     @Enumerated(EnumType.STRING)
@@ -50,7 +50,7 @@ public class Document {
     private String fileAltText;
     private String fileCaption;
 
-    @Lob
+    @Column(length = 1000)
     private String fileDescription;
 
     @Column(nullable = false)

@@ -32,7 +32,7 @@ public class IncomeReport {
     @Column(nullable = false)
     private ReportStatus reportStatus; // PENDING, COMPLETED, etc.
 
-    @Lob
+    @Column(columnDefinition = "text")
     private String reportDetails; // Could store summary, metrics, or JSON blob
 
     private LocalDateTime lastUpdated;

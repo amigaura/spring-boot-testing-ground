@@ -14,15 +14,8 @@ public class UserDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @MapsId
-    @OneToOne
-    @JoinColumn(name = "app_user_id")
-    private AppUser appUser;
-
     private String name;
-
-    @Column(unique = true)
-    private String username;
+    private String address;
 
     @Column(unique = true)
     private String email;

@@ -39,7 +39,7 @@ public class UserAccount {
     @Column(precision = 15, scale = 2)
     private BigDecimal dueAmount;
 
-    @Lob
+    @Column(length = 1000)
     private String transactionHistory; // Consider linking to a separate Transaction entity for normalization
 
     @Column(precision = 15, scale = 2)

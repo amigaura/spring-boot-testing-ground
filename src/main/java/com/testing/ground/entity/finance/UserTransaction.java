@@ -49,7 +49,7 @@ public class UserTransaction {
     @Column(nullable = false)
     private TransactionStatus transactionStatus; // COMPLETED, PENDING, FAILED
 
-    @Lob
+    @Column(length = 1000)
     private String transactionDetails;
 
     private LocalDateTime lastUpdated;

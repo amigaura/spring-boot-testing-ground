@@ -37,7 +37,7 @@ public class Lease {
     @Column(nullable = false)
     private BigDecimal securityDeposit;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String termsAndConditions;
 
     @Enumerated(EnumType.STRING)

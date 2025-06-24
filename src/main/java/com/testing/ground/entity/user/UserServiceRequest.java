@@ -32,8 +32,7 @@ public class UserServiceRequest {
     @Column(nullable = false)
     private RequestType requestType; // MAINTENANCE, COMPLAINT, SUGGESTION, etc.
 
-    @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String description;
 
     @Enumerated(EnumType.STRING)

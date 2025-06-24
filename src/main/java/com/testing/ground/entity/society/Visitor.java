@@ -56,7 +56,7 @@ public class Visitor {
     @Column(nullable = false)
     private ScheduleStatus scheduleStatus;     // CONFIRMED, PENDING, CANCELLED
 
-    @Lob
+    @Column(length = 1000)
     private String notes;
 
     // Visitor photo metadata

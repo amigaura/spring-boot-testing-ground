@@ -29,7 +29,7 @@ public class SocietyExpense {
     @Column(nullable = false)
     private LocalDateTime expenseDate;
 
-    @Lob
+    @Column(length = 1000)
     private String expenseDescription;
 
     @Enumerated(EnumType.STRING)

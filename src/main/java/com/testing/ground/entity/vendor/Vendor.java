@@ -34,7 +34,7 @@ public class Vendor {
     private String vendorEmail;
     private String vendorAddress;
 
-    @Lob
+    @Column(length = 1000)
     private String vendorServicesOffered;
 
     @Enumerated(EnumType.STRING)
@@ -43,7 +43,7 @@ public class Vendor {
     private String vendorPanNumber;
     private String vendorGstNumber;
 
-    @Lob
+    @Column(length = 1000)
     private String vendorBankAccountDetails;
 
     private String vendorBankAccountNumber;
@@ -67,7 +67,7 @@ public class Vendor {
     @Enumerated(EnumType.STRING)
     private VendorStatus vendorStatus;
 
-    @Lob
+    @Column(length = 1000)
     private String vendorNotes;
 
     private LocalDateTime lastUpdated;

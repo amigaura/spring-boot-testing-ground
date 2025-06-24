@@ -32,7 +32,7 @@ public class Report {
     @Column(nullable = false)
     private ReportStatus status; // PENDING, COMPLETED, FAILED, etc.
 
-    @Lob
+    @Column(columnDefinition = "text")
     private String details; // JSON or text details of the report
 
     private LocalDateTime lastUpdated;

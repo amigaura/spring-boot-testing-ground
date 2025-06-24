@@ -3,14 +3,15 @@ com/testing/ground/entity/vendor/VendorDocument.class
 com/testing/ground/constant/user/ActivityType.class
 com/testing/ground/constant/user/ConsentType.class
 com/testing/ground/misc/DuplicateObjectRemover$Person.class
+com/testing/ground/entity/society/IncomePayment.class
 com/testing/ground/entity/society/Event.class
 com/testing/ground/misc/ProcessedItem.class
 com/testing/ground/entity/society/ParkingSlot.class
 com/testing/ground/entity/finance/UserTransaction.class
-com/testing/ground/constant/finance/VendorInvoice.class
 com/testing/ground/constant/society/IdProofType.class
 com/testing/ground/entity/finance/SocietyExpense.class
 com/testing/ground/entity/user/UserCredential.class
+com/testing/ground/constant/society/SocietyStatus.class
 com/testing/ground/constant/society/BookingStatus.class
 com/testing/ground/constant/user/RequestType.class
 com/testing/ground/constant/finance/ExpenseType.class
@@ -29,6 +30,8 @@ com/testing/ground/entity/finance/UserAccount.class
 com/testing/ground/constant/user/BadgeType.class
 com/testing/ground/entity/society/Unit.class
 com/testing/ground/entity/society/FacilityBooking.class
+com/testing/ground/repository/society/SocietyRepository.class
+com/testing/ground/entity/vendor/VendorInvoice.class
 com/testing/ground/misc/Item.class
 com/testing/ground/constant/society/ReportStatus.class
 com/testing/ground/constant/society/BookingType.class
@@ -40,7 +43,6 @@ com/testing/ground/controller/user/AuthController.class
 com/testing/ground/constant/society/StaffRole.class
 com/testing/ground/TestingGroundApplication.class
 com/testing/ground/request/user/LogoutRequest.class
-com/testing/ground/controller/finance/ItemControllerAsync.class
 com/testing/ground/constant/vendor/DocumentType.class
 com/testing/ground/constant/society/UnitOccupancyRole.class
 com/testing/ground/constant/society/Priority.class
@@ -74,6 +76,7 @@ com/testing/ground/entity/vendor/VendorRating.class
 com/testing/ground/constant/finance/ExpenseStatus.class
 com/testing/ground/misc/SpecialCharacterHandler.class
 com/testing/ground/controller/misc/ItemController.class
+com/testing/ground/controller/society/SocietyController.class
 com/testing/ground/constant/vendor/FeedbackStatus.class
 com/testing/ground/misc/DuplicateObjectRemover.class
 com/testing/ground/filter/RequestSanitizationFilter.class
@@ -89,7 +92,6 @@ com/testing/ground/entity/vendor/Vendor.class
 com/testing/ground/misc/BucketDivider.class
 com/testing/ground/constant/society/ReportType.class
 com/testing/ground/service/society/ComplaintServiceImpl.class
-com/testing/ground/constant/finance/IncomePayment.class
 com/testing/ground/constant/society/AmenityType.class
 com/testing/ground/entity/finance/SocietyIncome.class
 com/testing/ground/constant/society/VisitStatus.class
@@ -100,6 +102,7 @@ com/testing/ground/constant/vendor/CommunicationType.class
 com/testing/ground/service/misc/ItemsService.class
 com/testing/ground/constant/finance/TransactionMethod.class
 com/testing/ground/entity/user/UserActivityLog.class
+com/testing/ground/controller/misc/ItemControllerAsync.class
 com/testing/ground/misc/ItemProcessorV2.class
 com/testing/ground/constant/finance/TransactionStatus.class
 com/testing/ground/constant/finance/IncomeType.class
@@ -142,6 +145,7 @@ com/testing/ground/entity/vendor/VendorFeedback.class
 com/testing/ground/constant/society/ComplaintPriority.class
 com/testing/ground/constant/society/StaffCategory.class
 com/testing/ground/entity/society/Lease.class
+com/testing/ground/service/society/SocietyService.class
 com/testing/ground/constant/vendor/ServiceStatus.class
 com/testing/ground/entity/finance/BalanceSheet.class
 com/testing/ground/job/RecoveryJob.class
@@ -185,7 +189,6 @@ com/testing/ground/request/misc/SanitizedHttpServletRequest$1.class
 com/testing/ground/entity/society/CommitteeMember.class
 com/testing/ground/constant/user/Relationship.class
 com/testing/ground/entity/vendor/VendorContract.class
-com/testing/ground/constant/vendor/VendorFeedback.class
 com/testing/ground/constant/finance/ReceiptStatus.class
 com/testing/ground/constant/finance/BudgetType.class
 com/testing/ground/constant/society/VisitorType.class

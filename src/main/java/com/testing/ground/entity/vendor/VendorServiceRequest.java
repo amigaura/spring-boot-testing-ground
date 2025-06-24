@@ -28,7 +28,7 @@ public class VendorServiceRequest {
     @Column(nullable = false)
     private ServiceType serviceType; // e.g., MAINTENANCE, CLEANING
 
-    @Lob
+    @Column(length = 2000)
     private String serviceDescription;
 
     @Enumerated(EnumType.STRING)

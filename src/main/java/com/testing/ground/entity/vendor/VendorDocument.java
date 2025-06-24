@@ -27,7 +27,7 @@ public class VendorDocument {
     @Column(nullable = false)
     private String title; // document title
 
-    @Lob
+    @Column(length = 1000)
     private String description; // document description
 
     private String file;

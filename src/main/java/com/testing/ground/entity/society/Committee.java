@@ -21,7 +21,7 @@ public class Committee {
     @Column(nullable = false)
     private String name;            // committee name
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String description;     // committee description
 
     @Column(nullable = false)

@@ -30,9 +30,6 @@ public class AppUser {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
-    private String password;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "app_user_roles",

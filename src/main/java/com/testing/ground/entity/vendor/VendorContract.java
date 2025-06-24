@@ -31,7 +31,7 @@ public class VendorContract {
     @Column(nullable = false)
     private LocalDateTime contractEndDate;
 
-    @Lob
+    @Column(length = 1000)
     private String contractTermsAndConditions;
 
     @Enumerated(EnumType.STRING)

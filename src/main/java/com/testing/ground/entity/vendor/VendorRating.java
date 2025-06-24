@@ -22,7 +22,7 @@ public class VendorRating {
     @Column(nullable = false)
     private Integer ratingScore; // 1 to 5 stars
 
-    @Lob
+    @Column(length = 1000)
     private String ratingComment;
 
     @Column(nullable = false)

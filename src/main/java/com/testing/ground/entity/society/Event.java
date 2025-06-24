@@ -20,7 +20,7 @@ public class Event {
     @Column(nullable = false)
     private String name; // event name
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String description; // event description
 
     @Column(nullable = false)

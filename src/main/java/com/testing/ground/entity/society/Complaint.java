@@ -29,7 +29,7 @@ public class Complaint {
 
     private boolean defaulter;
 
-    @Lob
+    @Column(nullable = false, length = 2000)
     private String details;
 
     @Enumerated(EnumType.STRING)
@@ -43,7 +43,7 @@ public class Complaint {
     private Long attendedByUserId;
     private LocalDateTime attendedDate;
 
-    @Lob
+    @Column(length = 2000)
     private String resolutionDetails;
     private LocalDateTime resolutionDate;
 

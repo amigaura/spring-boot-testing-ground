@@ -25,8 +25,7 @@ public class SocietyFeedback {
     @Column(nullable = false)
     private FeedbackType feedbackType; // SUGGESTION, COMPLAINT, COMPLIMENT, etc.
 
-    @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String feedbackMessage;
 
     @Column(nullable = false)

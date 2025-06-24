@@ -40,7 +40,7 @@ public class VisitorPass {
     @Column(nullable = false)
     private PassStatus status;              // ACTIVE, EXPIRED, REVOKED
 
-    @Lob
+    @Column(length = 500)
     private String details;                 // any extra details about the pass
 
     private LocalDateTime lastUpdated;

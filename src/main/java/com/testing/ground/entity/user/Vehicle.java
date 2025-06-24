@@ -35,7 +35,7 @@ public class Vehicle {
     @Column(nullable = false, unique = true)
     private String registrationNumber;
 
-    @Lob
+    @Column(length = 1000)
     private String insuranceDetails;
 
     private String image;

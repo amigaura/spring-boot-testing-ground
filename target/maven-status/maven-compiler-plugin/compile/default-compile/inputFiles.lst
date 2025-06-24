@@ -11,7 +11,6 @@
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/finance/BudgetType.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/finance/ExpenseStatus.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/finance/ExpenseType.java
-/Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/finance/IncomePayment.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/finance/IncomeStatus.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/finance/IncomeType.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/finance/InvoiceStatus.java
@@ -20,7 +19,6 @@
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/finance/TransactionMethod.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/finance/TransactionStatus.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/finance/TransactionType.java
-/Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/finance/VendorInvoice.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/misc/AppConstant.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/society/AccessLevel.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/society/AmenityAvailabilityStatus.java
@@ -55,6 +53,7 @@
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/society/ReportStatus.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/society/ReportType.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/society/ScheduleStatus.java
+/Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/society/SocietyStatus.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/society/StaffCategory.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/society/StaffRole.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/society/Status.java
@@ -82,11 +81,11 @@
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/vendor/ServiceStatus.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/vendor/ServiceType.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/vendor/VendorCategory.java
-/Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/vendor/VendorFeedback.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/constant/vendor/VendorStatus.java
-/Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/controller/finance/ItemControllerAsync.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/controller/misc/ItemController.java
+/Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/controller/misc/ItemControllerAsync.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/controller/society/ComplaintController.java
+/Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/controller/society/SocietyController.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/controller/user/AuthController.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/dto/misc/ProcessingResult.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/finance/BalanceSheet.java
@@ -113,6 +112,7 @@
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/society/Event.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/society/Facility.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/society/FacilityBooking.java
+/Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/society/IncomePayment.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/society/Lease.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/society/Notification.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/society/ParkingSlot.java
@@ -150,6 +150,7 @@
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/vendor/VendorContract.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/vendor/VendorDocument.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/vendor/VendorFeedback.java
+/Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/vendor/VendorInvoice.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/vendor/VendorRating.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/entity/vendor/VendorServiceRequest.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/filter/JwtFilter.java
@@ -168,6 +169,7 @@
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/repository/misc/ItemRepository.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/repository/misc/RequestRepository.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/repository/society/ComplaintRepository.java
+/Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/repository/society/SocietyRepository.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/repository/user/RefreshTokenRepository.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/repository/user/UserRepository.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/request/misc/SanitizedHttpServletRequest.java
@@ -180,6 +182,7 @@
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/service/misc/ItemsServiceAsync.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/service/society/ComplaintService.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/service/society/ComplaintServiceImpl.java
+/Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/service/society/SocietyService.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/service/user/AuthService.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/service/user/TokenService.java
 /Users/amigaura/workspace-java/spring-boot-testing-ground/src/main/java/com/testing/ground/service/user/UserDetailsServiceImpl.java

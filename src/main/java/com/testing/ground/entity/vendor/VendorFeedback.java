@@ -20,8 +20,7 @@ public class VendorFeedback {
     @Column(nullable = false)
     private Long societyId;
 
-    @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String feedbackMessage;
 
     @Column(nullable = false)

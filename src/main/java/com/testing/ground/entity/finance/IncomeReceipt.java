@@ -34,7 +34,7 @@ public class IncomeReceipt {
     @Column(nullable = false)
     private ReceiptStatus receiptStatus; // ISSUED, PENDING, etc.
 
-    @Lob
+    @Column(length = 1000)
     private String receiptDetails;
 
     private LocalDateTime lastUpdated;

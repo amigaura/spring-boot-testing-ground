@@ -1,5 +1,6 @@
 package com.testing.ground.entity.society;
 
+import com.testing.ground.constant.society.SocietyStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -25,6 +26,8 @@ public class Society {
     private String contactNumber;
     private String email;
     private String website;
+    @Enumerated(EnumType.STRING)
+    private SocietyStatus status; // active, suspended, etc.
 
     // Logo and media info
     private String logo;               // file name or path

@@ -27,7 +27,7 @@ public class VendorCommunication {
     @Column(nullable = false)
     private LocalDateTime communicationDate;
 
-    @Lob
+    @Column(length = 1000)
     private String communicationDetails;
 
     private LocalDateTime lastUpdated;

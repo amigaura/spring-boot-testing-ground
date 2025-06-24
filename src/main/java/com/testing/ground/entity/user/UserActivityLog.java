@@ -30,7 +30,7 @@ public class UserActivityLog {
     @Column(nullable = false)
     private LocalDateTime activityTimestamp;
 
-    @Lob
+    @Column(length = 1000)
     private String activityDetails;
 
     private String affectedEntityType; // e.g., "user", "property", "request"
