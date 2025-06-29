@@ -9,7 +9,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -24,7 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
     @Autowired
-    private JwtService jwtUtil;
+    private JwtService jwtService;
 
     @Autowired
     private AppUserRepository userRepo;
@@ -43,18 +47,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String jwt = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
+            username = jwtService.extractUsername(jwt);
         }
 
         // Validate Token
-        if (jwtUtil.validateToken(jwt)) {
-            Long societyId = jwtUtil.extractSocietyId(jwt);
-            TenantContext.setCurrentTenant(societyId);
-        }
+//        if (jwtService.validateToken(jwt)) {
+//            Long societyId = jwtService.extractSocietyId(jwt);
+//            TenantContext.setCurrentTenant(societyId);
+//        }
 
-       /* if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+       if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            LOGGER.info("Processing authentication for user: {}", username);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            if (jwtUtil.validateToken(jwt, userDetails.getUsername())) {
+            if (jwtService.validateToken(jwt, userDetails.getUsername())) {
+                Long societyId = jwtService.extractSocietyId(jwt);
+                TenantContext.setCurrentTenant(societyId);
+                LOGGER.info("Setting tenant context for society ID: {}", societyId);
+
                 System.out.println("Valid token for user: " + username);
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
@@ -62,7 +71,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(token);
             }
-        }*/
+        }
         chain.doFilter(request, response);
     }
 }

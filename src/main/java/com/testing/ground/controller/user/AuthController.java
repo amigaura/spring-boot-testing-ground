@@ -30,13 +30,13 @@ public class AuthController {
     AppUserSocietyMappingService mappingService;
 
     @Autowired
-    private JwtService jwtUtil;
+    JwtService jwtService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody AuthRequest authRequest) {
         AppUserSocietyMapping mapping = authService.registerUser(authRequest.getSocietyId(),
                 authRequest.getUsername(), authRequest.getPassword());
-        String accessToken = jwtUtil.generateToken(mapping.getAppUser(), mapping);
+        String accessToken = jwtService.generateToken(mapping.getAppUser(), mapping);
         String refreshToken = authService.generateRefreshToken(mapping.getAppUser());
         return ResponseEntity.ok(new AuthResponse(accessToken, refreshToken));
     }
@@ -49,19 +49,19 @@ public class AuthController {
     @PostMapping("/select-society")
     public ResponseEntity<?> selectSociety(@RequestBody SocietySelectionRequest request) {
         AppUserSocietyMapping mapping = mappingService.getMappingById(request.getMappingId());
-        String accessToken = jwtUtil.generateToken(mapping.getAppUser(), mapping);
+        String accessToken = jwtService.generateToken(mapping.getAppUser(), mapping);
         String refreshToken = authService.generateRefreshToken(mapping.getAppUser());
         return ResponseEntity.ok(new AuthResponse(accessToken, refreshToken));
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<?> refresh(@RequestBody Map<String, String> body) {
-        return ResponseEntity.ok(jwtUtil.refreshToken(body.get("refreshToken")));
+        return ResponseEntity.ok(jwtService.refreshToken(body.get("refreshToken")));
     }
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@RequestBody LogoutRequest request) {
-        jwtUtil.revokeRefreshToken(request.getRefreshToken());
+        jwtService.revokeRefreshToken(request.getRefreshToken());
         return ResponseEntity.ok("Logged out successfully");
     }
 

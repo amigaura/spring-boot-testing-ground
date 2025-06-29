@@ -58,29 +58,6 @@ public class AuthService {
     @Autowired
     UserRoleRepository userRoleRepository;
 
-//    public Map<String, String> login(String username, String password) {
-//        try {
-//            Authentication authentication = authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(username, password)
-//            );
-//
-//            String accessToken = jwtUtil.generateToken(username);
-//
-//            AppUser user = appUserRepository.findByUsername(username)
-//                    .orElseThrow(() -> new RuntimeException("User not found"));
-//
-//            String refreshToken = generateRefreshToken(user);
-//
-//            return Map.of(
-//                    "accessToken", accessToken,
-//                    "refreshToken", refreshToken
-//            );
-//
-//        } catch (BadCredentialsException ex) {
-//            throw new RuntimeException("Invalid username or password", ex);
-//        }
-//    }
-
     public ResponseEntity<?> authenticateUser(String username, String password) {
         AppUser user = appUserRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Invalid username"));
@@ -226,14 +203,6 @@ public class AuthService {
         }
 
         LOGGER.debug("Password validation passed for user: {}", trimmedUsername);
-    }
-
-    public void revokeRefreshToken(String token) {
-        RefreshToken refreshToken = refreshTokenRepository.findByToken(token)
-                .orElseThrow(() -> new RuntimeException("Invalid token"));
-
-        refreshToken.setRevoked(true);
-        refreshTokenRepository.save(refreshToken);
     }
 
 }
