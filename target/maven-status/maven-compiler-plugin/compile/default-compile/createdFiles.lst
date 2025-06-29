@@ -30,6 +30,8 @@ com/testing/ground/entity/finance/UserAccount.class
 com/testing/ground/constant/user/BadgeType.class
 com/testing/ground/entity/society/Unit.class
 com/testing/ground/entity/society/FacilityBooking.class
+com/testing/ground/filter/JwtAuthenticationFilter.class
+com/testing/ground/service/user/AppUserSocietyMappingService.class
 com/testing/ground/repository/society/SocietyRepository.class
 com/testing/ground/entity/vendor/VendorInvoice.class
 com/testing/ground/misc/Item.class
@@ -39,10 +41,12 @@ com/testing/ground/constant/society/NotificationStatus.class
 com/testing/ground/entity/user/PasswordResetRequest.class
 com/testing/ground/constant/society/DocumentCategory.class
 com/testing/ground/entity/vendor/VendorCommunication.class
+com/testing/ground/response/user/MultipleSocietiesResponse$SocietyMappingInfo.class
 com/testing/ground/controller/user/AuthController.class
 com/testing/ground/constant/society/StaffRole.class
 com/testing/ground/TestingGroundApplication.class
 com/testing/ground/request/user/LogoutRequest.class
+com/testing/ground/response/user/MultipleSocietiesResponse.class
 com/testing/ground/constant/vendor/DocumentType.class
 com/testing/ground/constant/society/UnitOccupancyRole.class
 com/testing/ground/constant/society/Priority.class
@@ -56,8 +60,10 @@ com/testing/ground/misc/ItemProcessor.class
 com/testing/ground/entity/finance/IncomeReceipt.class
 com/testing/ground/entity/society/Staff.class
 com/testing/ground/entity/society/Poll.class
+com/testing/ground/constant/user/RegistrationDefaults.class
 com/testing/ground/entity/society/Report.class
 com/testing/ground/constant/vendor/ServiceType.class
+com/testing/ground/repository/user/AppUserSocietyMappingRepository.class
 com/testing/ground/constant/society/AccessLevel.class
 com/testing/ground/misc/VirtualAccount.class
 com/testing/ground/entity/society/Notification.class
@@ -78,6 +84,7 @@ com/testing/ground/misc/SpecialCharacterHandler.class
 com/testing/ground/controller/misc/ItemController.class
 com/testing/ground/controller/society/SocietyController.class
 com/testing/ground/constant/vendor/FeedbackStatus.class
+com/testing/ground/repository/user/AppUserRepository.class
 com/testing/ground/misc/DuplicateObjectRemover.class
 com/testing/ground/filter/RequestSanitizationFilter.class
 com/testing/ground/request/misc/SanitizedHttpServletRequest.class
@@ -94,6 +101,7 @@ com/testing/ground/constant/society/ReportType.class
 com/testing/ground/service/society/ComplaintServiceImpl.class
 com/testing/ground/constant/society/AmenityType.class
 com/testing/ground/entity/finance/SocietyIncome.class
+com/testing/ground/request/user/SocietySelectionRequest.class
 com/testing/ground/constant/society/VisitStatus.class
 com/testing/ground/service/user/TokenService.class
 com/testing/ground/entity/society/Society.class
@@ -157,9 +165,12 @@ com/testing/ground/constant/society/DocumentType.class
 com/testing/ground/dto/misc/ProcessingResult.class
 com/testing/ground/entity/society/Complaint.class
 com/testing/ground/request/user/AuthRequest.class
+com/testing/ground/dto/user/TenantContext.class
 com/testing/ground/util/CommonUtil.class
 com/testing/ground/constant/finance/AccountType.class
 com/testing/ground/service/misc/ItemsServiceAsync.class
+com/testing/ground/dto/user/SocietySelectionRequestDTO.class
+com/testing/ground/repository/user/PermissionRepository.class
 com/testing/ground/repository/misc/RequestRepository.class
 com/testing/ground/util/JsonUtil.class
 com/testing/ground/config/DatabaseConfiguration.class
@@ -175,13 +186,12 @@ com/testing/ground/constant/finance/BalanceSheetType.class
 com/testing/ground/constant/vendor/BankAccountType.class
 com/testing/ground/entity/vendor/VendorServiceRequest.class
 com/testing/ground/service/society/ComplaintService.class
+com/testing/ground/repository/user/UserRoleRepository.class
 com/testing/ground/constant/society/UnitType.class
 com/testing/ground/entity/user/UserRole.class
 com/testing/ground/constant/society/UnitStatus.class
 com/testing/ground/constant/user/RequestPriority.class
-com/testing/ground/repository/user/UserRepository.class
 com/testing/ground/entity/user/UserPrivacyPolicyAcceptance.class
-com/testing/ground/filter/JwtFilter.class
 com/testing/ground/util/InputSanitizer.class
 com/testing/ground/entity/society/Committee.class
 com/testing/ground/misc/StringBuilderTest.class

@@ -45,4 +45,28 @@ public class CommonUtil {
             return true;
         }
     }
+
+    public static boolean isValidEmail(String email) {
+        if (email == null || email.trim().isEmpty()) return true;
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        return email.matches(emailRegex);
+    }
+
+    public static boolean isValidPhoneNumber(String phoneNumber) {
+        if (phoneNumber == null || phoneNumber.trim().isEmpty()) return true;
+        String phoneRegex = "^\\+?[0-9]{10,15}$"; // Adjust regex as per your requirements
+        return phoneNumber.matches(phoneRegex);
+    }
+
+    public static boolean isValidUrl(String url) {
+        if (url == null || url.trim().isEmpty()) return true;
+        String urlRegex = "^(https?|ftp)://[^\s/$.?#].[^\s]*$"; // Basic URL validation regex
+        return !url.matches(urlRegex);
+    }
+
+    public static boolean isValidName(String name) {
+        if (name == null || name.trim().isEmpty()) return true;
+        String nameRegex = "^[a-zA-Z\\s]+$"; // Allows only letters and spaces
+        return !name.matches(nameRegex);
+    }
 }

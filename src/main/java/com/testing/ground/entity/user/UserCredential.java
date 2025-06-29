@@ -2,11 +2,13 @@ package com.testing.ground.entity.user;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Data
+@ToString(exclude = "appUser")
 public class UserCredential {
     @Id
     private Long id;
@@ -15,9 +17,6 @@ public class UserCredential {
     @OneToOne
     @JoinColumn(name = "app_user_id")
     private AppUser appUser;
-
-    @Column(nullable = false)
-    private Long societyId;
 
     private String passwordHash;
     private int failedLoginAttempts;

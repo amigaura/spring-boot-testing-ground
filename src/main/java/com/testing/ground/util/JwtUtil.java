@@ -1,6 +1,9 @@
 package com.testing.ground.util;
 
 import com.testing.ground.constant.misc.AppConstant;
+import com.testing.ground.entity.user.AppUser;
+import com.testing.ground.entity.user.AppUserSocietyMapping;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -21,11 +24,29 @@ public class JwtUtil {
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
-//                .claim("role", user.getRoles())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + AppConstant.JWT_EXPIRATION_MS)) // 1 hour
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
+    }
+
+    public String generateToken(AppUser user, AppUserSocietyMapping mapping) {
+        return Jwts.builder()
+                .setSubject(user.getUsername())
+                .claim("userId", user.getId())
+                .claim("mappingId", mapping.getId())
+                .claim("societyId", mapping.getSociety().getId())
+//                .claim("roles", mapping.getRoles())
+                .setExpiration(new Date(System.currentTimeMillis() + AppConstant.JWT_EXPIRATION_MS)) // 1 hour
+                .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public Claims parseToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(SECRET_KEY)
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public String extractUsername(String token) {
@@ -38,10 +59,25 @@ public class JwtUtil {
         return extractUsername(token).equals(username) && !isTokenExpired(token);
     }
 
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     private boolean isTokenExpired(String token) {
         Date expiration = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token)
                 .getBody().getExpiration();
         return expiration.before(new Date());
+    }
+
+    public Long extractSocietyId(String token) {
+        Claims claims = Jwts.parser().setSigningKey(SECRET_KEY)
+                .parseClaimsJws(token).getBody();
+        return claims.get("societyId", Long.class);
     }
 }
 

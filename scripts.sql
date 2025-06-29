@@ -112,9 +112,9 @@ values('admin', NOW(), NOW(), 'admin', 'admin', 1),
 ('admin', NOW(), NOW(), 'admin', 'guest', 1);
 
 INSERT INTO user_role (created_by, created_date, last_updated, last_updated_by, name, society_id)
-values('admin', NOW(), NOW(), 'admin', 'admin', 1),
-('admin', NOW(), NOW(), 'admin', 'user', 2),
-('admin', NOW(), NOW(), 'admin', 'guest', 2);
+values('admin', NOW(), NOW(), 'admin', 'admin', 3),
+('admin', NOW(), NOW(), 'admin', 'user', 3),
+('admin', NOW(), NOW(), 'admin', 'guest', 3);
 
 role_id|created_by|created_date           |description|last_updated           |last_updated_by|name |society_id|
 -------+----------+-----------------------+-----------+-----------------------+---------------+-----+----------+
@@ -156,7 +156,7 @@ app_user_id|role_id|
           8|      3|
 ------------------------------------------------------------------------------------------------------------
 INSERT INTO permission (
-    permission_id, permission_name, permission_description, created_by,
+    id, name, description, created_by,
     created_date, last_updated, last_updated_by, society_id
 ) VALUES
 (1, 'Community', 'Permission for Community', 1, NOW(), NOW(), 'admin', 1),
@@ -283,8 +283,9 @@ role_id|permission_id|
 
 
 -- Drop existing tables if they exist
-DROP TABLE IF EXISTS app_user_society_mapping;
+
 DROP TABLE IF EXISTS app_user_roles;
+DROP TABLE IF EXISTS app_user_society_mapping;
 DROP TABLE IF EXISTS user_credential;
 DROP TABLE IF EXISTS app_user_unit_mapping;
 DROP TABLE IF EXISTS refresh_token;

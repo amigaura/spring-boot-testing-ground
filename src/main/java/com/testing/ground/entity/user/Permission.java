@@ -7,17 +7,17 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-public class Permission {
+public class        Permission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long permissionId;
+    private Long id;
 
     @Column(nullable = false)
     private Long societyId;
 
-    private String permissionName;
-    private String permissionDescription;
+    private String name;
+    private String description;
 
     private LocalDateTime lastUpdated;
     private String lastUpdatedBy;

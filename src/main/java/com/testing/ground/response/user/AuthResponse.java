@@ -1,10 +1,13 @@
 package com.testing.ground.response.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class AuthResponse {
-    private String token;
-    public AuthResponse(String token) { this.token = token; }
-    public String getToken() { return token; }
+    private String accessToken;
+    private String refreshToken;
+
+
 }

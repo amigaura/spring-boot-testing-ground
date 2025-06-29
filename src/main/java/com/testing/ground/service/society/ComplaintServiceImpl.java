@@ -4,7 +4,7 @@ import com.testing.ground.constant.society.ComplaintStatus;
 import com.testing.ground.entity.society.Complaint;
 import com.testing.ground.entity.user.AppUser;
 import com.testing.ground.repository.society.ComplaintRepository;
-import com.testing.ground.repository.user.UserRepository;
+import com.testing.ground.repository.user.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class ComplaintServiceImpl implements ComplaintService {
     private ComplaintRepository complaintRepository;
 
     @Autowired
-    UserRepository userRepository;
+    AppUserRepository userRepository;
 
     @Override
     public String logComplaint(Complaint complaint) {
