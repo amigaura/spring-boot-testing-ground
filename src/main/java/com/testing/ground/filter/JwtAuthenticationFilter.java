@@ -2,7 +2,7 @@ package com.testing.ground.filter;
 
 import com.testing.ground.dto.user.TenantContext;
 import com.testing.ground.repository.user.AppUserRepository;
-import com.testing.ground.util.JwtUtil;
+import com.testing.ground.service.user.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtService jwtUtil;
 
     @Autowired
     private AppUserRepository userRepo;

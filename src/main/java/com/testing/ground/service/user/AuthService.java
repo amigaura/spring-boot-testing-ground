@@ -11,7 +11,6 @@ import com.testing.ground.repository.user.UserRoleRepository;
 import com.testing.ground.response.user.AuthResponse;
 import com.testing.ground.response.user.MultipleSocietiesResponse;
 import com.testing.ground.util.CommonUtil;
-import com.testing.ground.util.JwtUtil;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -44,7 +41,7 @@ public class AuthService {
     private AppUserRepository appUserRepository;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtService jwtUtil;
 
     @Autowired
     private AppUserSocietyMappingService mappingService;
@@ -61,28 +58,28 @@ public class AuthService {
     @Autowired
     UserRoleRepository userRoleRepository;
 
-    public Map<String, String> login(String username, String password) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password)
-            );
-
-            String accessToken = jwtUtil.generateToken(username);
-
-            AppUser user = appUserRepository.findByUsername(username)
-                    .orElseThrow(() -> new RuntimeException("User not found"));
-
-            String refreshToken = generateRefreshToken(user);
-
-            return Map.of(
-                    "accessToken", accessToken,
-                    "refreshToken", refreshToken
-            );
-
-        } catch (BadCredentialsException ex) {
-            throw new RuntimeException("Invalid username or password", ex);
-        }
-    }
+//    public Map<String, String> login(String username, String password) {
+//        try {
+//            Authentication authentication = authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(username, password)
+//            );
+//
+//            String accessToken = jwtUtil.generateToken(username);
+//
+//            AppUser user = appUserRepository.findByUsername(username)
+//                    .orElseThrow(() -> new RuntimeException("User not found"));
+//
+//            String refreshToken = generateRefreshToken(user);
+//
+//            return Map.of(
+//                    "accessToken", accessToken,
+//                    "refreshToken", refreshToken
+//            );
+//
+//        } catch (BadCredentialsException ex) {
+//            throw new RuntimeException("Invalid username or password", ex);
+//        }
+//    }
 
     public ResponseEntity<?> authenticateUser(String username, String password) {
         AppUser user = appUserRepository.findByUsername(username)
@@ -91,14 +88,15 @@ public class AuthService {
             throw new BadCredentialsException("Invalid password");
         }
 
-        String accessToken = jwtUtil.generateToken(username);
-        String refreshToken = generateRefreshToken(user);
-
         List<AppUserSocietyMapping> mappings = mappingService.getMappingsForUser(user);
         if (mappings.size() > 1) {
             return ResponseEntity.ok(new MultipleSocietiesResponse(mappings));
         } else {
             AppUserSocietyMapping mapping = mappings.get(0);
+
+            String accessToken = jwtUtil.generateToken(user, mapping);
+            String refreshToken = generateRefreshToken(user);
+
             return ResponseEntity.ok(new AuthResponse(accessToken, refreshToken));
         }
     }
@@ -186,7 +184,6 @@ public class AuthService {
 
         return mappingService.save(mapping);
     }
-
 
     private void validateUserProvidedParams(Long societyId, String username, String password) {
         // Validate society ID
