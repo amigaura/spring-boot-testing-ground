@@ -65,8 +65,10 @@ class AuthServiceTest {
         String password = "Password1";
 
         Society society = new Society();
+        society.setId(societyId); // Fix: set the ID
         Permission permission = new Permission();
         permission.setId(10L);
+        permission.setSocietyId(societyId);
         UserRole userRole = new UserRole();
 
         try (MockedStatic<CommonUtil> commonUtilMock = mockStatic(CommonUtil.class)) {

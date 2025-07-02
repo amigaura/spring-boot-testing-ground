@@ -255,3 +255,11 @@ curl --location 'http://localhost:8080/auth/login' \
 - Spring Boot Starter Data Reactive ReactiveReactiveSolr
 - Spring Boot Starter Data Reactive ReactiveReactiveJOOQ
 - Spring Boot Starter Data Reactive ReactiveReactiveGraphQL
+
+# Password reset flow
+1. Password Reset Flow Overview
+   - User initiates request → POST /request
+2. System generates token & sends email
+   - User clicks on reset link → GET /validate
+3. Frontend shows new password screen if valid
+   - User submits new password → POST /consume

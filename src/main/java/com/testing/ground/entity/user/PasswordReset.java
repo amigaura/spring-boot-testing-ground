@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-public class PasswordResetRequest {
+public class PasswordReset {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,13 +38,13 @@ public class PasswordResetRequest {
     private LocalDateTime createdDate;
 
     // Constructors
-    public PasswordResetRequest() { }
+    public PasswordReset() { }
 
-    public PasswordResetRequest(Long societyId,
-                                Long userCredentialId,
-                                String token,
-                                LocalDateTime expiresAt,
-                                String createdBy) {
+    public PasswordReset(Long societyId,
+                         Long userCredentialId,
+                         String token,
+                         LocalDateTime expiresAt,
+                         String createdBy) {
         this.societyId = societyId;
         this.userCredentialId = userCredentialId;
         this.token = token;
