@@ -73,9 +73,11 @@ public class PasswordResetServiceImpl implements PasswordResetService {
             String link = resetBaseUrl + "?token=" + token + "&societyId=" + dto.getSocietyId();
             LOGGER.debug("Sending password reset email to: {}, link: {}", user.getUserDetail().getEmail(), link);
 
+            if (user.getUserDetail().getEmail() == null) {
+                throw new RuntimeException("User email not found for user: " + dto.getUserCredentialId());
+            }
             emailService.sendPasswordResetEmail(new PasswordResetEmailDTO() {{
-//                setRecipientEmail(user.getUserDetail().getEmail());
-                setRecipientEmail(user.getUsername());
+                setRecipientEmail(user.getUserDetail().getEmail());
                 setToken(token);
                 setSocietyId(dto.getSocietyId());
                 setSubject("Reset Your Password");

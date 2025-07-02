@@ -81,7 +81,7 @@ jwt:
 
 app:
   reset-password:
-    base-url: https://localhost:8080/api/password-reset/validate
+    base-url: http://localhost:8080/api/password-reset/validate
 
 
 

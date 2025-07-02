@@ -11,6 +11,7 @@ import com.testing.ground.repository.user.UserRoleRepository;
 import com.testing.ground.response.user.AuthResponse;
 import com.testing.ground.response.user.MultipleSocietiesResponse;
 import com.testing.ground.util.CommonUtil;
+import com.testing.ground.util.UsernameValidator;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,6 +129,16 @@ public class AuthService {
         newUser.setCredential(credential);
 
         UserDetail detail = new UserDetail();
+        String usernameType = UsernameValidator.getUsernameType(username);
+        detail.setUsernameType(usernameType);
+        if (usernameType.equalsIgnoreCase("EMAIL")) {
+            detail.setEmail(username);
+        } else if (usernameType.equalsIgnoreCase("PHONE")) {
+            detail.setPhoneNumber(username);
+        } else {
+            throw new IllegalArgumentException("Invalid username format: " + username);
+        }
+
         newUser.setUserDetail(detail);
         newUser.setSocietyId(societyId);
 

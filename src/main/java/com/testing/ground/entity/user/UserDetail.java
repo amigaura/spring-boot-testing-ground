@@ -23,6 +23,8 @@ public class UserDetail {
     @Column(unique = true)
     private String phoneNumber;
 
+    private String usernameType; // EMAIL or PHONE
+
     private Boolean emailVerified;
     private Boolean phoneVerified;
 
