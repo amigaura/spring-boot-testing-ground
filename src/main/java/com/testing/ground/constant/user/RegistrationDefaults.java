@@ -2,7 +2,8 @@ package com.testing.ground.constant.user;
 
 public enum RegistrationDefaults {
     DEFAULT_ROLE("user"),
-    DEFAULT_PERMISSION("Community");
+    DEFAULT_PERMISSION("Community"),
+    DEFAULT_PASSWORD("Password123");
 
     private final String value;
 

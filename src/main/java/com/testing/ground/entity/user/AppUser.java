@@ -3,11 +3,13 @@ package com.testing.ground.entity.user;
 import com.testing.ground.entity.society.AppUserUnitMapping;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Set;
 
 @Entity
 @Data
+@ToString(exclude = {"societies", "userDetail"})
 public class AppUser {
 
     @Id

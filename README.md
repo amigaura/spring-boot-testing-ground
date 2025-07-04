@@ -263,3 +263,10 @@ curl --location 'http://localhost:8080/auth/login' \
    - User clicks on reset link → GET /validate
 3. Frontend shows new password screen if valid
    - User submits new password → POST /consume
+
+
+# Bulk upload 
+curl -X POST "http://localhost:8080/api/users/bulk/upload" \
+-F "file=@/Users/amigaura/Downloads/bulk_user_template.csv" \
+-F "societyId=1" \
+-F "createdBy=amit@zerobyte.com"

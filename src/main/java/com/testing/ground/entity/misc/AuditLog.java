@@ -17,6 +17,8 @@ public class AuditLog {
     private Long id;
 
     private String eventType;
+
+    @jakarta.persistence.Column(length = 65535)
     private String description;
     private String actor;
     private Long societyId;

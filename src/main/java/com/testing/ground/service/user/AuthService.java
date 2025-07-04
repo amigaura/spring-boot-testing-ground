@@ -151,7 +151,7 @@ public class AuthService {
         return mapping;
     }
 
-    private AppUserSocietyMapping createMapping(AppUser user, Society society) {
+    protected AppUserSocietyMapping createMapping(AppUser user, Society society) {
         Long societyId = society.getId();
 
         Permission permission = permissionRepository.findBySocietyIdAndName(societyId, RegistrationDefaults.DEFAULT_PERMISSION.getValue())
