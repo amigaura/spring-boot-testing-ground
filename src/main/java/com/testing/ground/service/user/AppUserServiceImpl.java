@@ -68,7 +68,7 @@ public class AppUserServiceImpl implements AppUserService {
 
         // Optionally, mark user detail as deleted or handle as needed
         UserDetail userDetail = appUser.getUserDetail();
-        LOGGER.debug("Deleting user detail for user with app user id: {} and uder detail id: {}", id, userDetail != null ? userDetail.getId() : "N/A");
+        LOGGER.debug("Deleting user detail for user with app user id: {} and user detail id: {}", id, userDetail != null ? userDetail.getId() : "N/A");
         if (userDetail != null) {
             userDetailRepository.delete(userDetail);
         }

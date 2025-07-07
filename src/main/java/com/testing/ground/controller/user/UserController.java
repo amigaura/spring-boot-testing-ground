@@ -74,10 +74,13 @@ public class UserController {
         return ResponseEntity.ok(appUserService.updateUserDetail(id, userDetailRequest));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    @PostMapping("/delete")
+    public ResponseEntity<?> delete(@RequestParam Long id) {
         appUserService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(java.util.Map.of(
+            "message", "User deleted successfully",
+            "id", id
+        ));
     }
 
     /*@GetMapping("/paged")
