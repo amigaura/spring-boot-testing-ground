@@ -18,3 +18,4 @@ DROP TABLE IF EXISTS amenity;
 DROP TABLE IF EXISTS society;
 DROP TABLE IF EXISTS unit;
 DROP TABLE IF EXISTS permission_user_role;
+drop table email_template

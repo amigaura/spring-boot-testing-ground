@@ -130,3 +130,32 @@ INSERT INTO user_role_permissions (role_id, permission_id) VALUES
 --(9, 34), (9, 35),                -- Operator
 --(10, 24), (10, 36);              -- Assistant
 ------------------------------------------------------------------------------------------------------------
+ALTER TABLE email_template
+  ALTER COLUMN body_template TYPE text
+    USING body_template::text;
+
+
+INSERT INTO email_template(id, code, subject_template, body_template, active)
+VALUES
+  (
+  1,
+    'WELCOME',
+    'Welcome, [[${username}]]!',
+    $$<p>Hi [[${username}]], welcome to our service!</p>$$,
+    true
+  ),
+  (
+    2,
+    'PASSWORD_RESET',
+    'Reset your password',
+    $$<p>Click <a href="[[${resetLink}]]">here</a> to reset.</p>$$,
+    true
+  ),
+  (
+    3,
+    'DUES_REMINDER',
+    'Your dues are due on [[${dueDate}]]',
+    $$<p>Please pay [[${amount}]] by [[${dueDate}]].</p>$$,
+    true
+  )
+  ---

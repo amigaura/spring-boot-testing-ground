@@ -1,20 +1,21 @@
 package com.testing.ground.service.user;
 
 import com.testing.ground.constant.user.RegistrationDefaults;
+import com.testing.ground.constant.user.UserStatus;
+import com.testing.ground.dto.user.PasswordResetEmailDTO;
 import com.testing.ground.entity.society.Society;
 import com.testing.ground.entity.user.*;
 import com.testing.ground.repository.society.SocietyRepository;
-import com.testing.ground.repository.user.PermissionRepository;
-import com.testing.ground.repository.user.RefreshTokenRepository;
-import com.testing.ground.repository.user.AppUserRepository;
-import com.testing.ground.repository.user.UserRoleRepository;
+import com.testing.ground.repository.user.*;
 import com.testing.ground.response.user.AuthResponse;
 import com.testing.ground.response.user.MultipleSocietiesResponse;
+import com.testing.ground.service.misc.EmailService;
 import com.testing.ground.util.CommonUtil;
 import com.testing.ground.util.UsernameValidator;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -55,6 +56,12 @@ public class AuthService {
 
     @Autowired
     PermissionRepository permissionRepository;
+
+    @Autowired
+    EmailService emailService;
+
+    @Value("${app.reset-password.base-url}")
+    private String resetBaseUrl;
 
     @Autowired
     UserRoleRepository userRoleRepository;
@@ -122,6 +129,7 @@ public class AuthService {
         // Create a new user and persist credentials
         AppUser newUser = new AppUser();
         newUser.setUsername(username);
+        newUser.setStatus(UserStatus.PENDING_VERIFICATION);
 
         UserCredential credential = new UserCredential();
         credential.setPasswordHash(passwordEncoder.encode(password));
@@ -147,8 +155,43 @@ public class AuthService {
         // Create mapping to society
         AppUserSocietyMapping mapping = createMapping(newUser, society);
 
+        if (usernameType.equalsIgnoreCase("EMAIL")) {
+            // Send welcome email
+            String token = UUID.randomUUID().toString();
+            LocalDateTime expiry = calculateExpiry(societyId);
+            String link = resetBaseUrl + "?token=" + token + "&societyId=" + societyId;
+            LOGGER.debug("Sending password reset email to: {}, link: {}", detail.getEmail(), link);
+            emailService.send(
+                    detail.getEmail(),
+                    "WELCOME",
+                    Map.of("username", username, "resetLink", link)
+            );
+        } else if (usernameType.equalsIgnoreCase("PHONE")) {
+            detail.setPhoneVerified(false);
+        }
+
         LOGGER.info("New user '{}' registered and mapped to society {}", username, societyId);
         return mapping;
+    }
+
+    @Autowired
+    private PasswordPolicyRepository passwordPolicyRepository;
+
+    private LocalDateTime calculateExpiry(Long societyId) {
+        // Default to 30 minutes if policy not found or not configured
+        int defaultExpiryMinutes = 30;
+
+        return passwordPolicyRepository.findBySocietyId(societyId)
+                .map(policy -> {
+                    // Option 1: Reuse passwordExpiryDays (less ideal)
+                    return LocalDateTime.now().plusDays(policy.getPasswordExpiryDays());
+
+                    // Option 2: Add new field for token expiry if needed:
+                    // return LocalDateTime.now().plusMinutes(policy.getResetTokenExpiryMinutes());
+
+//                    return LocalDateTime.now().plusMinutes(defaultExpiryMinutes); // placeholder
+                })
+                .orElse(LocalDateTime.now().plusMinutes(defaultExpiryMinutes));
     }
 
     protected AppUserSocietyMapping createMapping(AppUser user, Society society) {

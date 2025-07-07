@@ -422,3 +422,12 @@ Hibernate:
         api_request ar1_0
     where
         ar1_0.status=?
+
+
+CREATE TABLE email_template (
+  id            BIGSERIAL PRIMARY KEY,
+  code          VARCHAR(255) NOT NULL UNIQUE,
+  subject_template VARCHAR(255) NOT NULL,
+  body_template TEXT NOT NULL,
+  active        BOOLEAN     NOT NULL DEFAULT TRUE
+);

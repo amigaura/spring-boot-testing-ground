@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -76,13 +77,19 @@ public class PasswordResetServiceImpl implements PasswordResetService {
             if (user.getUserDetail().getEmail() == null) {
                 throw new RuntimeException("User email not found for user: " + dto.getUserCredentialId());
             }
-            emailService.sendPasswordResetEmail(new PasswordResetEmailDTO() {{
+            // Send welcome email
+            emailService.send(
+                    user.getUserDetail().getEmail(),
+                    "WELCOME",
+                    Map.of("username", user.getUsername(), "resetLink", link)
+            );
+            /*emailService.sendPasswordResetEmail(new PasswordResetEmailDTO() {{
                 setRecipientEmail(user.getUserDetail().getEmail());
                 setToken(token);
                 setSocietyId(dto.getSocietyId());
                 setSubject("Reset Your Password");
                 setResetLink(link);
-            }});
+            }});*/
             auditLogger.log("PASSWORD_RESET_EMAIL", "Reset email sent", dto.getCreatedBy(), dto.getSocietyId());
             return mapToResponseDTO(saved);
         } catch (RuntimeException e) {
