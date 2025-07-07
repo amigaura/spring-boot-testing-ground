@@ -10,6 +10,8 @@ public class UploadSummary {
     private int total;
     private int success;
     private int failed;
+    private String message;
+    private Long societyId;
     private List<String> errorLines = new ArrayList<>();
 }
 

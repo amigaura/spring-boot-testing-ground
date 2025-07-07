@@ -5,6 +5,7 @@ import com.testing.ground.request.user.AuthRequest;
 import com.testing.ground.request.user.LogoutRequest;
 import com.testing.ground.request.user.SocietySelectionRequest;
 import com.testing.ground.response.user.AuthResponse;
+import com.testing.ground.response.user.RegisteredUserResponse;
 import com.testing.ground.service.user.AppUserSocietyMappingService;
 import com.testing.ground.service.user.AuthService;
 import com.testing.ground.service.user.JwtService;
@@ -38,7 +39,11 @@ public class AuthController {
                 authRequest.getUsername(), authRequest.getPassword());
         String accessToken = jwtService.generateToken(mapping.getAppUser(), mapping);
         String refreshToken = authService.generateRefreshToken(mapping.getAppUser());
-        return ResponseEntity.ok(new AuthResponse(accessToken, refreshToken));
+        return ResponseEntity.ok(new RegisteredUserResponse(mapping.getAppUser().getUsername(),
+                mapping.getAppUser().getSocietyId(),
+                mapping.getAppUser().getId(),
+                accessToken,
+                refreshToken));
     }
 
     @PostMapping("/login")

@@ -270,3 +270,6 @@ curl -X POST "http://localhost:8080/api/users/bulk/upload" \
 -F "file=@/Users/amigaura/Downloads/bulk_user_template.csv" \
 -F "societyId=1" \
 -F "createdBy=amit@zerobyte.com"
+
+# Swagger Documentation
+http://localhost:8080/swagger-ui.html

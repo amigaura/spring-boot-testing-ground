@@ -18,7 +18,12 @@ public class AuditLoggerImpl implements AuditLogger {
     @Override
     public void log(String eventType, String description, String actor, Long societyId) {
         LOGGER.info("AUDIT | type={} | actor={} | desc={}", eventType, actor, description);
-        AuditLog entry = new AuditLog(eventType, description, actor, societyId);
+        AuditLog entry = new AuditLog(
+                eventType,
+                description != null && description.length() > 65535 ? description.substring(0, 65535) : description,
+                actor,
+                societyId
+        );
         auditLogRepository.save(entry);
     }
 }

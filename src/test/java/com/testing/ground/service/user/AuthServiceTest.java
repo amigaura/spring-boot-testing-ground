@@ -1,4 +1,4 @@
-package com.demo.ground.service.user;
+package com.testing.ground.service.user;
 
 import com.testing.ground.entity.society.Society;
 import com.testing.ground.entity.user.*;

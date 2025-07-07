@@ -1,5 +1,6 @@
 package com.testing.ground.entity.user;
 
+import com.testing.ground.constant.user.UserStatus;
 import com.testing.ground.entity.society.AppUserUnitMapping;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -42,6 +43,9 @@ public class AppUser {
 
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
     private Set<AppUserSocietyMapping> societies;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
 }
 

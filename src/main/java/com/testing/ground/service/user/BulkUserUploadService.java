@@ -1,6 +1,7 @@
 package com.testing.ground.service.user;
 
 import com.testing.ground.constant.user.RegistrationDefaults;
+import com.testing.ground.constant.user.UserStatus;
 import com.testing.ground.dto.user.UploadSummary;
 import com.testing.ground.entity.society.Society;
 import com.testing.ground.entity.user.*;
@@ -21,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -47,8 +49,27 @@ public class BulkUserUploadService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void processCsvFile(MultipartFile file, Long societyId, String createdBy) throws Exception {
+    public UploadSummary processCsvFile(MultipartFile file, Long societyId, String createdBy) throws Exception {
+
+        if (file.isEmpty() || file.getSize() == 0) {
+            throw new IllegalArgumentException("File is empty. Please upload a valid CSV file.");
+        }
+
+        if (file.getSize() > 2 * 1024 * 1024) { // 2 MB size limit
+            throw new IllegalArgumentException("File size exceeds the 2MB limit.");
+        }
+
+        if (!Objects.requireNonNull(file.getOriginalFilename()).endsWith(".csv")) {
+            throw new IllegalArgumentException("Invalid file type. Please upload a CSV file.");
+        }
+
+        if (societyId == null || societyId <= 0) {
+            throw new IllegalArgumentException("Invalid society ID provided.");
+        }
+
         UploadSummary summary = new UploadSummary();
+        summary.setSocietyId(societyId);
+
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
             boolean isHeader = true;
 
@@ -90,6 +111,7 @@ public class BulkUserUploadService {
                     AppUser user = new AppUser();
                     user.setSocietyId(societyId);
                     user.setUsername(username);
+                    user.setStatus(UserStatus.PENDING_VERIFICATION);
 
                     UserDetail detail = new UserDetail();
                     detail.setName(name);
@@ -117,6 +139,7 @@ public class BulkUserUploadService {
                     auditLogger.log("USER_UPLOAD", createdBy, user.getUsername(), societyId);
 
                     summary.setSuccess(summary.getSuccess() + 1);
+
                 } catch (DataIntegrityViolationException dataIntegrityViolationException) {
                     summary.setFailed(summary.getFailed() + 1);
                     summary.getErrorLines().add("Line " + lineNum + ": Duplicate entry for user - " + line);
@@ -125,16 +148,27 @@ public class BulkUserUploadService {
                     summary.getErrorLines().add("Line " + lineNum + ": " + e.getMessage());
                 }
             }
+            if (summary.getTotal() == 0) {
+                summary.setMessage("No valid user data found in the file.");
+            } else if (summary.getSuccess() == 0) {
+                summary.setMessage("All entries failed to upload. Check error lines for details.");
+            } else if (summary.getFailed() > 0) {
+                summary.setMessage("Upload completed with " + summary.getSuccess() + " users created and " + summary.getFailed() + " errors. Check error lines for details.");
+            } else {
+                summary.setMessage("Upload completed successfully with " + summary.getSuccess() + " users created.");
+            }
         } catch (IOException e) {
             throw new RuntimeException("Failed to read file: " + e.getMessage(), e);
         } catch (IllegalArgumentException e) {
             throw e;
         } catch (Exception e) {
             throw new RuntimeException("Error processing file: " + e.getMessage(), e);
+        } finally {
+            auditLogger.log("BULK_USER_UPLOAD_SUMMARY", createdBy, "Total: " + summary.getTotal() +
+                    ", Success: " + summary.getSuccess() +
+                    ", Failed: " + summary.getFailed() +
+                    ", Errors: " + summary.getErrorLines().size(), societyId);
         }
-
-        auditLogger.log("BULK_USER_UPLOAD_SUMMARY", createdBy, summary.toString(), societyId);
+        return summary;
     }
-
 }
-

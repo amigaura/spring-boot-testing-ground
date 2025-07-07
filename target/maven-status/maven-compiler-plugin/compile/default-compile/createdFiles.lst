@@ -4,7 +4,9 @@ com/testing/ground/constant/user/ActivityType.class
 com/testing/ground/constant/user/ConsentType.class
 com/testing/ground/misc/DuplicateObjectRemover$Person.class
 com/testing/ground/entity/society/IncomePayment.class
+com/testing/ground/exception/ResourceNotFoundException.class
 com/testing/ground/entity/society/Event.class
+com/testing/ground/repository/user/UserDetailRepository.class
 com/testing/ground/misc/ProcessedItem.class
 com/testing/ground/entity/society/ParkingSlot.class
 com/testing/ground/entity/finance/UserTransaction.class
@@ -22,11 +24,13 @@ com/testing/ground/repository/misc/ItemRepository.class
 com/testing/ground/constant/user/Gender.class
 com/testing/ground/constant/society/FeedbackStatus.class
 com/testing/ground/service/user/JwtService.class
+com/testing/ground/response/user/UserDetailResponse.class
 com/testing/ground/config/AppConfig.class
 com/testing/ground/repository/user/PasswordPolicyRepository.class
 com/testing/ground/constant/vendor/VendorStatus.class
 com/testing/ground/entity/user/UserServiceRequest.class
 com/testing/ground/constant/finance/IncomeStatus.class
+com/testing/ground/util/FieldUpdaterUtil.class
 com/testing/ground/constant/misc/AppConstant.class
 com/testing/ground/entity/finance/UserAccount.class
 com/testing/ground/constant/user/BadgeType.class
@@ -49,9 +53,11 @@ com/testing/ground/controller/user/AuthController.class
 com/testing/ground/constant/society/StaffRole.class
 com/testing/ground/TestingGroundApplication.class
 com/testing/ground/request/user/LogoutRequest.class
+com/testing/ground/service/user/AppUserService.class
 com/testing/ground/response/user/MultipleSocietiesResponse.class
 com/testing/ground/constant/vendor/DocumentType.class
 com/testing/ground/constant/society/UnitOccupancyRole.class
+com/testing/ground/service/user/UserDetailServiceImpl.class
 com/testing/ground/constant/society/Priority.class
 com/testing/ground/constant/society/PassType.class
 com/testing/ground/constant/society/PollStatus.class
@@ -60,7 +66,6 @@ com/testing/ground/constant/society/ParkingAvailabilityStatus.class
 com/testing/ground/repository/society/ComplaintRepository.class
 com/testing/ground/config/SchedulerConfig.class
 com/testing/ground/misc/ItemProcessor.class
-com/testing/ground/service/user/PasswordResetRequestServiceImpl$1.class
 com/testing/ground/entity/finance/IncomeReceipt.class
 com/testing/ground/entity/society/Staff.class
 com/testing/ground/entity/society/Poll.class
@@ -72,8 +77,10 @@ com/testing/ground/service/user/AuditLogger.class
 com/testing/ground/constant/society/AccessLevel.class
 com/testing/ground/misc/VirtualAccount.class
 com/testing/ground/entity/society/Notification.class
+com/testing/ground/service/user/AppUserServiceImpl.class
 com/testing/ground/entity/user/Vehicle.class
 com/testing/ground/constant/society/DiscussionStatus.class
+com/testing/ground/service/user/PasswordResetServiceImpl$1.class
 com/testing/ground/entity/user/Permission.class
 com/testing/ground/entity/user/UserConsent.class
 com/testing/ground/constant/society/Status.class
@@ -85,18 +92,19 @@ com/testing/ground/entity/misc/ApiRequest.class
 com/testing/ground/constant/user/VehicleType.class
 com/testing/ground/entity/vendor/VendorRating.class
 com/testing/ground/constant/finance/ExpenseStatus.class
-com/testing/ground/service/user/PasswordResetRequestServiceImpl.class
 com/testing/ground/misc/SpecialCharacterHandler.class
 com/testing/ground/controller/misc/ItemController.class
 com/testing/ground/repository/user/PasswordResetRepository.class
 com/testing/ground/controller/society/SocietyController.class
 com/testing/ground/constant/vendor/FeedbackStatus.class
 com/testing/ground/repository/user/AppUserRepository.class
+com/testing/ground/service/user/PasswordResetServiceImpl.class
 com/testing/ground/misc/DuplicateObjectRemover.class
 com/testing/ground/filter/RequestSanitizationFilter.class
 com/testing/ground/request/misc/SanitizedHttpServletRequest.class
 com/testing/ground/service/user/UserCredentialServiceImpl.class
 com/testing/ground/entity/society/Facility.class
+com/testing/ground/exception/GlobalExceptionHandler.class
 com/testing/ground/entity/user/PasswordReset.class
 com/testing/ground/entity/finance/IncomeReconciliation.class
 com/testing/ground/constant/society/ComplaintType.class
@@ -128,6 +136,7 @@ com/testing/ground/constant/finance/IncomeType.class
 com/testing/ground/request/user/PasswordResetRequest.class
 com/testing/ground/response/user/PasswordResetResponse.class
 com/testing/ground/constant/society/OccupancyStatus.class
+com/testing/ground/repository/user/UserCredentialRepository.class
 com/testing/ground/constant/society/BlockStatus.class
 com/testing/ground/service/misc/CleanupService.class
 com/testing/ground/constant/finance/ReconciliationStatus.class
@@ -135,6 +144,7 @@ com/testing/ground/repository/misc/AuditLogRepository.class
 com/testing/ground/entity/society/Tenant.class
 com/testing/ground/job/RecoveryJob$1.class
 com/testing/ground/entity/misc/AuditLog.class
+com/testing/ground/dto/user/UploadSummary.class
 com/testing/ground/entity/user/UserBadge.class
 com/testing/ground/entity/user/AppUser.class
 com/testing/ground/entity/user/RefreshToken.class
@@ -147,6 +157,7 @@ com/testing/ground/entity/misc/Item.class
 com/testing/ground/entity/society/DiscussionComment.class
 com/testing/ground/config/JacksonConfig.class
 com/testing/ground/constant/vendor/ContractType.class
+com/testing/ground/service/user/BulkUserUploadService.class
 com/testing/ground/service/user/PasswordResetService.class
 com/testing/ground/entity/society/Block.class
 com/testing/ground/constant/finance/BudgetStatus.class
@@ -162,7 +173,6 @@ com/testing/ground/constant/society/PassStatus.class
 com/testing/ground/constant/society/EventStatus.class
 com/testing/ground/service/user/AuditLoggerImpl.class
 com/testing/ground/entity/finance/SocietyBudget.class
-com/testing/ground/request/user/UserCredentialRepository.class
 com/testing/ground/request/user/ChangePassword.class
 com/testing/ground/entity/user/AppUserSocietyMapping.class
 com/testing/ground/constant/society/LeaseStatus.class
@@ -175,6 +185,8 @@ com/testing/ground/constant/society/StaffCategory.class
 com/testing/ground/entity/society/Lease.class
 com/testing/ground/service/society/SocietyService.class
 com/testing/ground/constant/vendor/ServiceStatus.class
+com/testing/ground/service/user/UserDetailService.class
+com/testing/ground/util/UsernameValidator.class
 com/testing/ground/entity/finance/BalanceSheet.class
 com/testing/ground/job/RecoveryJob.class
 com/testing/ground/entity/finance/IncomeReport.class
@@ -202,6 +214,7 @@ com/testing/ground/response/user/AuthResponse.class
 com/testing/ground/config/SecurityConfig.class
 com/testing/ground/service/misc/EmailServiceImpl.class
 com/testing/ground/constant/finance/TransactionType.class
+com/testing/ground/response/user/RegisteredUserResponse.class
 com/testing/ground/constant/society/ComplaintStatus.class
 com/testing/ground/constant/finance/BalanceSheetType.class
 com/testing/ground/constant/vendor/BankAccountType.class
@@ -212,6 +225,7 @@ com/testing/ground/constant/society/UnitType.class
 com/testing/ground/entity/user/UserRole.class
 com/testing/ground/constant/society/UnitStatus.class
 com/testing/ground/constant/user/RequestPriority.class
+com/testing/ground/request/user/UserDetailRequest.class
 com/testing/ground/entity/user/UserPrivacyPolicyAcceptance.class
 com/testing/ground/util/InputSanitizer.class
 com/testing/ground/entity/society/Committee.class
@@ -221,6 +235,7 @@ com/testing/ground/entity/society/CommitteeMember.class
 com/testing/ground/constant/user/Relationship.class
 com/testing/ground/entity/vendor/VendorContract.class
 com/testing/ground/service/misc/EmailService.class
+com/testing/ground/controller/user/UserController.class
 com/testing/ground/constant/finance/ReceiptStatus.class
 com/testing/ground/constant/finance/BudgetType.class
 com/testing/ground/constant/society/VisitorType.class
