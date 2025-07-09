@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 public class EmailRequest {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     @Column(nullable = false)
@@ -21,7 +22,9 @@ public class EmailRequest {
     private String subject;
 
     @Lob
-    @Column(nullable = false)
+//    @Column(nullable = false)
+//    @Column(nullable = false, columnDefinition = "text")
+    @Column(length = 65535)
     private String body;
 
     private LocalDateTime createdAt = LocalDateTime.now();
