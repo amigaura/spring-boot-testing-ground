@@ -7,5 +7,5 @@ import java.util.Map;
 
 public interface EmailService {
     void send(String to, String templateCode, Map<String, Object> variables);
-    void send(EmailRequest request);
+//    void send(EmailRequest request);
 }

@@ -8,28 +8,47 @@
 kafka:
   #  bootstrap-servers: localhost:9092
   #  bootstrap-servers: swx-kfk-stg1-2.cisco.com:9093,swx-kfk-stg1-1.cisco.com:9093,swx-kfk-stg2-1.cisco.com:9093,swx-kfk-stg2-2.cisco.com:9093
-  bootstrap-servers: swx-kfk-stg2-1.cisco.com:9093
+#  bootstrap-servers: swx-kfk-stg2-1.cisco.com:9093
+#  security:
+#    protocol: SSL
+#  topic-0:
+#    topic-name: test_topic-0
+#    consumer-group-id: topic-0-consumer-group
+#    concurrency: 3  # Increase concurrency to allow multiple threads to consume messages. Increase based on CPU cores
+#    max-attempts: 3 # Maximum number of attempts to process a message. Default is 2.
+#    initial-interval: 1000 # Initial interval in milliseconds. Default is 2000.
+#    multiplier: 1.0 # Multiplier to apply to the previous interval. Default is 2.0.
+#    max-interval: 8000 # Maximum interval in milliseconds. Default is 8000.
+#  topic-1:
+#    topic-name: test_topic-1
+#    consumer-group-id: topic-1-consumer-group
+#    concurrency: 3
+#    max-attempts: 2
+#    initial-interval: 2000
+#    multiplier: 2.0
+#    max-interval: 8000
+#  topic-2:
+#    topic-name: test_topic-2
+#    consumer-group-id: topic-2-consumer-group
+
+  bootstrap-servers: localhost:9092
   security:
     protocol: SSL
-  topic-0:
-    topic-name: test_topic-0
-    consumer-group-id: topic-0-consumer-group
-    concurrency: 3  # Increase concurrency to allow multiple threads to consume messages. Increase based on CPU cores
-    max-attempts: 3 # Maximum number of attempts to process a message. Default is 2.
-    initial-interval: 1000 # Initial interval in milliseconds. Default is 2000.
-    multiplier: 1.0 # Multiplier to apply to the previous interval. Default is 2.0.
-    max-interval: 8000 # Maximum interval in milliseconds. Default is 8000.
-  topic-1:
-    topic-name: test_topic-1
-    consumer-group-id: topic-1-consumer-group
-    concurrency: 3
-    max-attempts: 2
-    initial-interval: 2000
-    multiplier: 2.0
-    max-interval: 8000
-  topic-2:
-    topic-name: test_topic-2
-    consumer-group-id: topic-2-consumer-group
+  email-send-topic:
+    topic-name: email-send-topic
+    consumer-group-id: email-send-consumer-group
+#  consumer:
+#    group-id: email-service-group
+#    auto-offset-reset: earliest
+#    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#    value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+#    properties:
+#      spring.json.trusted.packages: '*'
+#  producer:
+#    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#    value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+#  template:
+#    default-topic: email-send-topic
 
 spring:
   datasource:
@@ -60,7 +79,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: emailamit7@gmail.com
-    password: Bunty@123
+    password: "weys sgpb egbf xwvt"
     protocol: smtp
     properties:
       mail.smtp.auth: true
