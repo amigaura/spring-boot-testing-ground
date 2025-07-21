@@ -1,10 +1,8 @@
-package com.testing.ground.producer;
+package com.testing.ground.kafka.producer;
 
 import com.testing.ground.dto.misc.EmailSendEvent;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 

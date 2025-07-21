@@ -1,5 +1,6 @@
 package com.testing.ground.service.user;
 
+import com.testing.ground.constant.misc.AppConstant;
 import com.testing.ground.constant.user.RegistrationDefaults;
 import com.testing.ground.constant.user.UserStatus;
 import com.testing.ground.dto.user.PasswordResetEmailDTO;
@@ -163,7 +164,7 @@ public class AuthService {
             LOGGER.debug("Sending password reset email to: {}, link: {}", detail.getEmail(), link);
             emailService.send(
                     detail.getEmail(),
-                    "WELCOME",
+                    AppConstant.EMAIL_TEMPLATE_NAME_WELCOME,
                     Map.of("username", username, "resetLink", link)
             );
         } else if (usernameType.equalsIgnoreCase("PHONE")) {

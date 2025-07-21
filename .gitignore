@@ -7,3 +7,5 @@
    .springBeans
    bin
    /.factorypath
+    .idea/
+    .vscode/

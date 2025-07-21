@@ -1,6 +1,7 @@
 package com.testing.ground.controller.user;
 
 import com.testing.ground.entity.user.AppUserSocietyMapping;
+import com.testing.ground.monitoring.ProcessingMetrics;
 import com.testing.ground.request.user.AuthRequest;
 import com.testing.ground.request.user.LogoutRequest;
 import com.testing.ground.request.user.SocietySelectionRequest;
@@ -35,10 +36,14 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody AuthRequest authRequest) {
+
+        ProcessingMetrics metrics = new ProcessingMetrics("AuthController.register");
         AppUserSocietyMapping mapping = authService.registerUser(authRequest.getSocietyId(),
                 authRequest.getUsername(), authRequest.getPassword());
         String accessToken = jwtService.generateToken(mapping.getAppUser(), mapping);
         String refreshToken = authService.generateRefreshToken(mapping.getAppUser());
+        metrics.end();
+        LOGGER.info(metrics.toString());
         return ResponseEntity.ok(new RegisteredUserResponse(mapping.getAppUser().getUsername(),
                 mapping.getAppUser().getSocietyId(),
                 mapping.getAppUser().getId(),

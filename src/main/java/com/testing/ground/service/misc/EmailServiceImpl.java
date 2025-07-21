@@ -3,7 +3,7 @@ package com.testing.ground.service.misc;
 import com.testing.ground.dto.misc.EmailSendEvent;
 import com.testing.ground.entity.misc.EmailRequest;
 import com.testing.ground.entity.misc.EmailTemplate;
-import com.testing.ground.producer.EmailProducer;
+import com.testing.ground.kafka.producer.EmailProducer;
 import com.testing.ground.repository.misc.EmailRequestRepository;
 import com.testing.ground.repository.misc.EmailTemplateRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,6 @@ public class EmailServiceImpl implements EmailService {
     private final EmailRequestRepository emailRequestRepository;
     private final TemplateRenderService templateRenderService;
     private final JavaMailSender mailSender;
-//    private final ApplicationEventPublisher events;
     private final EmailProducer emailProducer;
 
     @Override
@@ -47,14 +46,8 @@ public class EmailServiceImpl implements EmailService {
         emailRequest.setBody(body);
         emailRequestRepository.save(emailRequest);
 
-//        events.publishEvent(new EmailSendEvent(this, emailRequest.getId()));
         emailProducer.publishEmailSendEvent(emailSendTopicName, new EmailSendEvent(to, subject, body, this, emailRequest.getId()));
     }
 
-//    @Override
-//    public void send(EmailRequest request) {
-//        emailRequestRepository.save(request);
-//        events.publishEvent(new EmailSendEvent(this, request.getId()));
-//    }
 }
 

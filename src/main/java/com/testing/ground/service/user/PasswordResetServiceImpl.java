@@ -1,5 +1,6 @@
 package com.testing.ground.service.user;
 
+import com.testing.ground.constant.misc.AppConstant;
 import com.testing.ground.dto.user.PasswordResetEmailDTO;
 import com.testing.ground.entity.user.AppUser;
 import com.testing.ground.entity.user.PasswordReset;
@@ -80,7 +81,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
             // Send welcome email
             emailService.send(
                     user.getUserDetail().getEmail(),
-                    "WELCOME",
+                    AppConstant.EMAIL_TEMPLATE_NAME_PASSWORD_RESET,
                     Map.of("username", user.getUsername(), "resetLink", link)
             );
             /*emailService.sendPasswordResetEmail(new PasswordResetEmailDTO() {{

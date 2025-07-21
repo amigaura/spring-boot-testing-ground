@@ -1,31 +1,41 @@
-package com.testing.ground.listener;
+package com.testing.ground.kafka.consumer;
 
 import com.testing.ground.dto.misc.EmailSendEvent;
 import com.testing.ground.entity.misc.EmailRequest;
 import com.testing.ground.repository.misc.EmailRequestRepository;
 import jakarta.mail.internet.MimeMessage;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.event.EventListener;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-@Component
-@RequiredArgsConstructor
-public class EmailSendListener {
+@Service
+public class EmailConsumer {
+    
+    Logger LOGGER = LoggerFactory.getLogger(EmailConsumer.class);
 
-    Logger LOGGER = LoggerFactory.getLogger(EmailSendListener.class);
     private final EmailRequestRepository requestRepo;
     private final JavaMailSender mailSender;
 
-    @Async
-    @EventListener
-    public void onEmailSend(EmailSendEvent event) {
+    public EmailConsumer(EmailRequestRepository requestRepo, JavaMailSender mailSender) {
+        this.requestRepo = requestRepo;
+        this.mailSender = mailSender;
+    }
+
+    @KafkaListener(topics = "${kafka.email-send-topic.topic-name}",
+            containerFactory = "topicListenerContainerFactory",
+            groupId = "${kafka.email-send-topic.consumer-group-id}")
+    public void listen(EmailSendEvent event) {
+        LOGGER.info("Received EmailSendEvent: {}", event);
+        if (event == null || event.getRequestId() == null) {
+            LOGGER.error("Invalid EmailSendEvent received: {}", event);
+            return;
+        }
+        // Fetch the email request from the repository
         EmailRequest req = null;
         try {
             LOGGER.info("Processing email send event for request ID: {}", event.getRequestId());
@@ -54,3 +64,4 @@ public class EmailSendListener {
         requestRepo.save(req);
     }
 }
+
