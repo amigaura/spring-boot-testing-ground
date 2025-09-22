@@ -1,0 +1,111 @@
+#logging:
+#  level:
+#    root: ERROR
+#    org.springframework: ERROR
+#    com.demo: DEBUG
+#    com.demo: INFO
+
+kafka:
+  #  bootstrap-servers: localhost:9092
+  #  bootstrap-servers: swx-kfk-stg1-2.cisco.com:9093,swx-kfk-stg1-1.cisco.com:9093,swx-kfk-stg2-1.cisco.com:9093,swx-kfk-stg2-2.cisco.com:9093
+#  bootstrap-servers: swx-kfk-stg2-1.cisco.com:9093
+#  security:
+#    protocol: SSL
+#  topic-0:
+#    topic-name: test_topic-0
+#    consumer-group-id: topic-0-consumer-group
+#    concurrency: 3  # Increase concurrency to allow multiple threads to consume messages. Increase based on CPU cores
+#    max-attempts: 3 # Maximum number of attempts to process a message. Default is 2.
+#    initial-interval: 1000 # Initial interval in milliseconds. Default is 2000.
+#    multiplier: 1.0 # Multiplier to apply to the previous interval. Default is 2.0.
+#    max-interval: 8000 # Maximum interval in milliseconds. Default is 8000.
+#  topic-1:
+#    topic-name: test_topic-1
+#    consumer-group-id: topic-1-consumer-group
+#    concurrency: 3
+#    max-attempts: 2
+#    initial-interval: 2000
+#    multiplier: 2.0
+#    max-interval: 8000
+#  topic-2:
+#    topic-name: test_topic-2
+#    consumer-group-id: topic-2-consumer-group
+
+  bootstrap-servers: localhost:9092
+  security:
+    protocol: SSL
+  email-send-topic:
+    topic-name: email-send-topic
+    consumer-group-id: email-send-consumer-group
+#  consumer:
+#    group-id: email-service-group
+#    auto-offset-reset: earliest
+#    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#    value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+#    properties:
+#      spring.json.trusted.packages: '*'
+#  producer:
+#    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#    value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+#  template:
+#    default-topic: email-send-topic
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password:
+#    url: jdbc:h2:mem:testdb
+#    url: jdbc:h2:file:../../h2/data/testdb
+#    url: jdbc:h2:tcp://192.168.1.80:8082/~/h2
+#    url: jdbc:postgresql://localhost:5432/postgres
+#    driver-class-name: org.h2.Driver
+#    username: sa
+#    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: emailamit7@gmail.com
+    password: "weys sgpb egbf xwvt"
+    protocol: smtp
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.connectiontimeout: 5000
+      mail.smtp.timeout: 5000
+      mail.smtp.writetimeout: 5000
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+logging:
+  level:
+    com:
+      testing:
+        ground: DEBUG
+
+jwt:
+  secret: iamsupersecretkey123456
+
+
+app:
+  reset-password:
+    base-url: http://localhost:8080/api/password-reset/validate
+
+
+
